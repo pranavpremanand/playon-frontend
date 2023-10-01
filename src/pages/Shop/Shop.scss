@@ -1,0 +1,207 @@
+@import "../../App.scss";
+
+.shop-main {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: 1.1rem;
+  position: relative;
+  width: 100%;
+  .top-loggedin {
+    top: 5rem;
+  }
+  .top-not-loggedin {
+    top: 5rem;
+    @media (max-width: 1000px) {
+      top: 8.5rem;
+    }
+  }
+  @media (max-width: 497px) {
+    padding: 1rem;
+  }
+  .head {
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    // top: 5rem;
+    background-color: $color-secondary;
+    z-index: 1;
+    @media (min-width: 976px) {
+      width: 100%;
+    }
+    h1 {
+      font-weight: 500;
+      font-size: 2.6rem;
+    }
+    .filter-btn {
+      @include buttonStyles();
+      background-color: $color-primary;
+      color: $color-secondary;
+      display: flex;
+      gap: 0.8rem;
+      @media (min-width: 976px) {
+        display: none;
+      }
+    }
+  }
+  .products-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2rem;
+    position: relative;
+    @media (max-width: 975px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
+
+    .list-of-products {
+      grid-column: 2 / span 4;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      // grid-template-columns: repeat(auto-fit, minmax(14rem, 15rem));
+      gap: 1rem;
+      height: fit-content !important;
+      @media (max-width: 1160px) {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      @media (max-width: 768px) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      @media (max-width: 550px) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      @media (max-width: 975px) {
+        grid-column: auto;
+      }
+      .slider-item {
+        height: fit-content !important;
+        .slider-img {
+          height: 14rem !important;
+          @media (max-width: 615px) {
+            height: 13rem !important;
+            object-fit: contain;
+          }
+          @media (max-width: 432px) {
+            object-fit: cover;
+          }
+        }
+      }
+    }
+  }
+}
+
+.offcanvas {
+  width: auto !important;
+  height: 100% !important;
+  padding: 1rem;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+.filters,
+.offcanvas .offcanvas-body-shop {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  h2 {
+    font-weight: 500;
+    font-size: 1.7rem;
+  }
+  .filter-box {
+    h4 {
+      font-size: 1.4rem;
+      font-weight: 500;
+    }
+    .underline {
+      width: 100%;
+      height: 1px;
+      background-color: #000;
+      margin-bottom: 0.5rem;
+    }
+    .filter-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.3rem;
+      input {
+        accent-color: $color-primary;
+        cursor: pointer;
+      }
+      input:checked + span {
+        color: $color-primary;
+      }
+      span {
+        font-size: 1.2rem;
+        color: #797979;
+        text-transform: capitalize;
+      }
+    }
+    .radios {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin-bottom: 0.3rem;
+      .item {
+        display: flex;
+        gap: 0.4rem;
+        align-items: center;
+        span {
+          font-size: 1.2rem;
+          color: #797979;
+        }
+        .radio,
+        .radio:checked,
+        .radio:active {
+          cursor: pointer;
+          accent-color: $color-primary !important;
+        }
+        input:checked + span {
+          color: $color-primary;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 975px) {
+  .filters-lg {
+    display: none;
+  }
+  .offcanvas-end {
+    width: 30vw !important;
+    overflow: scroll;
+    scroll-behavior: smooth;
+    &::-webkit-scrollbar {
+      display: none !important;
+    }
+    @media (max-width: 650px) {
+      width: 50vw !important;
+    }
+    .header-sm {
+      display: flex !important;
+      justify-content: space-between;
+      align-items: center;
+      .icon {
+        font-size: 1.8rem;
+      }
+    }
+  }
+}
+@media (min-width: 976px) {
+  .filters-lg {
+    display: flex;
+    position: sticky;
+    height: 100vh;
+    overflow: scroll;
+    left: 0;
+    top: 10rem;
+    scroll-behavior: smooth;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .offcanvas-end {
+    display: none;
+  }
+}

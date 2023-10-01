@@ -1,0 +1,72 @@
+@import "../../App.scss";
+
+.main-div {
+  padding: 3rem 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+  font-size: 1.1rem;
+  span {
+    font-weight: 600;
+  }
+  @media (max-width: 800px) {
+    grid-template-columns: 1fr;
+  }
+  .left-side {
+    display: flex;
+    flex-direction: column;
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 500;
+    }
+    form {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      @media (max-width: 450px) {
+        grid-template-columns: repeat(1, 1fr);
+      }
+      .input-box {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+        label {
+          font-weight: 600;
+        }
+        input,
+        textarea {
+          outline: none;
+          width: 100%;
+          border: 1px solid #c2c2c2;
+          padding: 0.5rem;
+          border-radius: 0.2rem;
+        }
+        @media (min-width: 451px) {
+          &:nth-of-type(3),
+          &:nth-of-type(4) {
+            grid-column: 1 / span 2;
+          }
+        }
+      }
+      .btn-primary {
+        width: 100%;
+        margin-bottom: 1rem;
+        @media (min-width: 451px) {
+          grid-column: 1 / span 2;
+        }
+      }
+    }
+  }
+  .right-side {
+    img {
+      width: 100%;
+      height: 70vh;
+      object-fit: cover;
+      @media (max-width: 800px) {
+        height: auto;
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+@import "../../App.scss";
+
+.footer-container {
+  background-color: $color-secondary;
+  padding: 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  border-top: 1px solid #c2c2c2;
+  font-size: 1.1rem;
+  .above-footer {
+    display: flex;
+    justify-content: space-between;
+    &:nth-child(2),
+    &:nth-child(3) {
+      justify-self: flex-end;
+    }
+    @media (max-width: 450px) {
+      flex-direction: column;
+      gap: 2rem;
+    }
+    div {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      span:first-of-type {
+        font-size: 1.2rem;
+        text-decoration: underline;
+        text-underline-offset: 0.5rem;
+        font-weight: 500;
+      }
+      span {
+        font-size: 1.1rem;
+      }
+    }
+  }
+  span {
+    justify-self: center;
+    font-size: 1.1rem;
+  }
+}

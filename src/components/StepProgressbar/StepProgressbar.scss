@@ -1,0 +1,161 @@
+@import "../../App.scss";
+
+.main-pb {
+  color: #000;
+  //   margin-left: 0;
+  align-self: center;
+  width: 100%;
+
+
+  .card {
+    z-index: 0;
+    background-color: #d0d5dd;
+    padding-bottom: 1.4rem;
+    margin-top: 6.4rem;
+    margin-bottom: 6.4rem;
+    border-radius: 0.7rem;
+  }
+
+  .top {
+    padding-top: 2.85rem;
+    padding-left: 13% !important;
+    padding-right: 13% !important;
+  }
+
+  #progressbar {
+    margin-bottom: 2.14rem;
+    overflow: hidden;
+    color: $color-primary;
+    padding-left: 0;
+    margin-top: 2.14rem;
+    position: sticky;
+    @media (max-width: 861px) {
+      display: none;
+    }
+  }
+
+  #progressbar li {
+    list-style-type: none;
+    font-size: 0.9rem;
+    width: 25%;
+    float: left;
+    position: relative;
+    font-weight: 400;
+    height: fit-content;
+  }
+
+  #progressbar .step0:before {
+    font-family: FontAwesome;
+    content: "\2713";
+    color: #d0d5dd;
+  }
+
+  #progressbar li:before {
+    width: 1.57rem;
+    height: 1.57rem;
+    display: block;
+    font-size: 1.07rem;
+    background: #d0d5dd;
+    border-radius: 50%;
+    margin: auto;
+    padding: 0;
+  }
+
+  #progressbar li:after {
+    content: "";
+    width: 100%;
+    height: 0.42rem;
+    background: #d0d5dd;
+    position: absolute;
+    left: 0;
+    top: 0.57rem;
+    z-index: -1;
+  }
+
+  #progressbar li:last-child:after {
+    border-top-right-radius: 0.71rem;
+    border-bottom-right-radius: 0.71rem;
+    position: absolute;
+    left: -50%;
+  }
+
+  #progressbar li:nth-child(2):after,
+  #progressbar li:nth-child(3):after,
+  #progressbar li:nth-child(4):after {
+    left: -50%;
+  }
+
+  #progressbar li:first-child:after {
+    border-top-left-radius: 0.71rem;
+    border-bottom-left-radius: 0.71rem;
+    position: absolute;
+    left: 50%;
+  }
+
+  #progressbar li:last-child:after {
+    border-top-right-radius: 0.71rem;
+    border-bottom-right-radius: 0.71rem;
+  }
+
+  #progressbar li:first-child:after {
+    border-top-left-radius: 0.71rem;
+    border-bottom-left-radius: 0.71rem;
+  }
+
+  #progressbar li.active:before,
+  #progressbar li.active:after {
+    background: $color-primary;
+  }
+  #progressbar li.return:before,
+  #progressbar li.return:after {
+    background: #d40000;
+  }
+
+  #progressbar li.active:before {
+    font-family: FontAwesome;
+    content: "\2713";
+    color: #fff;
+  }
+
+  #progressbar li.return:before {
+    font-family: FontAwesome;
+    content: "";
+    color: #fff;
+  }
+
+  .icon {
+    width: 4.28rem;
+    height: 4.28rem;
+    margin-right: 1.07rem;
+  }
+
+  .icon-content {
+    padding-bottom: 1.42rem;
+  }
+
+  .below-txt {
+    color: $color-primary !important;
+    padding-top: 0.85rem;
+    font-family: "Poppins";
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 0.64rem;
+    letter-spacing: 0.02em;
+    //   text-align: left;
+  }
+  .date {
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .main-pb {
+    .icon-content {
+      width: 50%;
+    }
+  }
+}
+
+.cancelled-text {
+  color: #b40000 !important;
+}

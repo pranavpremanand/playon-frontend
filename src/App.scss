@@ -1,0 +1,368 @@
+@import url("https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
+
+$color-primary: #d83b3b;
+$color-secondary: #fff;
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  font-family: "Crimson Pro", serif;
+  font-size: 1.1rem;
+}
+
+body {
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+html {
+  font-size: 90%;
+}
+
+@media only screen and (max-width: 600px) {
+  html {
+    font-size: 85%;
+  }
+}
+
+// ::-webkit-scrollbar {
+//   width: 6px;
+//   scroll-behavior: smooth;
+// }
+
+// ::-webkit-scrollbar-thumb {
+//   border-radius: 4px;
+//   background-color: $color-primary;
+// }
+
+// @media only screen and (max-width: 1024px) {
+html {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+// }
+.slick-prev,
+.slick-next {
+  color: #000;
+  font-size: 2rem !important;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 2.5rem;
+  height: 2.5rem;
+  z-index: 50;
+  transition: 0.5s ease-out;
+  position: absolute;
+  top: 50%;
+  &:hover {
+    background-color: #fff;
+    color: #111;
+  }
+}
+.react-slideshow-container {
+  position: relative;
+}
+
+.slick-prev {
+  margin-left: 3rem;
+  left: 3rem;
+}
+.slick-next {
+  right: 3rem;
+  margin-right: 3rem;
+}
+
+.react-slideshow-container .nav {
+  top: 10rem;
+  @media (min-width: 600px) {
+    top: 13rem;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .slick-next,
+  .slick-arrow,
+  .slick-prev {
+    display: none !important;
+  }
+}
+
+@mixin buttonStyles() {
+  padding: 0.5rem 2rem;
+  text-transform: capitalize;
+  border-radius: 0.3rem;
+  font-weight: 500;
+  cursor: pointer;
+  border:none;
+  transition: all 0.3s ease-in-out;
+  &:hover{
+    transform: translateY(-2px);
+  }
+}
+
+.underline-none {
+  text-decoration: none;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.btn-primary {
+  background-color: $color-primary;
+  color: $color-secondary;
+  @include buttonStyles();
+  &:hover {
+    background-color: #830000;
+    color: $color-secondary;
+  }
+}
+.btn-secondary {
+  background-color: $color-secondary;
+  color: #000;
+  border: 1px solid $color-primary !important;
+  @include buttonStyles();
+  &:hover {
+    color: $color-secondary;
+    border: 1px solid #830000 !important;
+    background-color: #830000;
+  }
+}
+.btn-gray {
+  color: $color-secondary;
+  background-color: #3f3f3f;
+  @include buttonStyles();
+}
+.btn-delete {
+  background-color: #830000b2;
+  color: $color-secondary;
+  @include buttonStyles();
+  &:hover {
+    background-color: #830000d2;
+  }
+}
+.btn-cancel {
+  @include buttonStyles();
+  background-color: #8a0009fb;
+  // border: 1px solid #8a0009fb;
+  color: #fff;
+  &:hover {
+    background-color: #b3000cfb;
+  }
+}
+.slider-header {
+  font-size: 2.3rem;
+  font-weight: 500;
+  margin: 2rem 0 3rem 1rem;
+}
+
+.profile-options-bg {
+  width: 100%;
+  height: 100%;
+  background-color: #3f3f3f31;
+  position: fixed;
+  z-index: 999;
+  .profile-options {
+    display: flex;
+    padding: 1rem 2rem 1rem 1rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: absolute;
+    right: 3rem;
+    top: 4rem;
+    background-color: $color-secondary;
+    .option {
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: $color-primary;
+      cursor: pointer;
+      .icon {
+        font-size: 1.3rem;
+      }
+    }
+  }
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.icon-heart {
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+.error {
+  color: #ff0000;
+  text-align: start;
+}
+
+.loading-card {
+  width: 100%;
+  height: 220px;
+  background: linear-gradient(0.25turn, transparent, #fff, transparent),
+    linear-gradient(#ddd, #ddd), linear-gradient(#ddd, #ddd),
+    linear-gradient(#ddd, #ddd);
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-size: 215px 220px, 215px 130px, 100px 15px, 150px 15px;
+  background-position: -215px 0, 0 0, 15px 150px, 15px 180px;
+  animation: loading 1.5s infinite;
+}
+
+.loading-cards {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(5, 1fr);
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media (max-width: 990px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 520px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .loading-card-item {
+    width: 215px;
+    // width: 100%;
+    height: 220px;
+    background: linear-gradient(0.25turn, transparent, #fff, transparent),
+      linear-gradient(#ddd, #ddd), linear-gradient(#ddd, #ddd),
+      linear-gradient(#ddd, #ddd);
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-size: 215px 220px, 215px 130px, 100px 15px, 150px 15px;
+    background-position: -215px 0, 0 0, 15px 150px, 15px 180px;
+    animation: loading 1.5s infinite;
+  }
+}
+
+@keyframes loading {
+  to {
+    background-position: 215px 0, 0 0, 15px 150px, 15px 180px;
+  }
+}
+
+.component-loader {
+  width: 64px;
+  height: 64px;
+  position: relative;
+  background-image: linear-gradient(#fff 16px, transparent 0),
+    linear-gradient(#ff3d00 16px, transparent 0),
+    linear-gradient(#ff3d00 16px, transparent 0),
+    linear-gradient(#fff 16px, transparent 0);
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
+  background-position: left top, left bottom, right top, right bottom;
+  animation: rotate 1s linear infinite;
+}
+@keyframes rotate {
+  0% {
+    width: 64px;
+    height: 64px;
+    transform: rotate(0deg);
+  }
+  50% {
+    width: 30px;
+    height: 30px;
+    transform: rotate(180deg);
+  }
+  100% {
+    width: 64px;
+    height: 64px;
+    transform: rotate(360deg);
+  }
+}
+
+.loader {
+  animation: rotate 1s infinite;
+  height: 50px;
+  width: 50px;
+}
+
+.loader:before,
+.loader:after {
+  border-radius: 50%;
+  content: "";
+  display: block;
+  height: 20px;
+  width: 20px;
+}
+.loader:before {
+  animation: ball1 1s infinite;
+  background-color: #fff;
+  box-shadow: 30px 0 0 #000;
+  margin-bottom: 10px;
+}
+.loader:after {
+  animation: ball2 1s infinite;
+  background-color: #000;
+  box-shadow: 30px 0 0 #fff;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg) scale(0.8);
+  }
+  50% {
+    transform: rotate(360deg) scale(1.2);
+  }
+  100% {
+    transform: rotate(720deg) scale(0.8);
+  }
+}
+
+// loading spinner
+.spinner-parent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.475);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes ball1 {
+  0% {
+    box-shadow: 30px 0 0 #000;
+    // box-shadow: 30px 0 0 #ff3d00;
+  }
+  50% {
+    box-shadow: 0 0 0 #000;
+    margin-bottom: 0;
+    transform: translate(15px, 15px);
+  }
+  100% {
+    box-shadow: 30px 0 0 #000;
+    margin-bottom: 10px;
+  }
+}
+
+@keyframes ball2 {
+  0% {
+    box-shadow: 30px 0 0 #fff;
+  }
+  50% {
+    box-shadow: 0 0 0 #fff;
+    margin-top: -20px;
+    transform: translate(15px, 15px);
+  }
+  100% {
+    box-shadow: 30px 0 0 #fff;
+    margin-top: 0;
+  }
+}
