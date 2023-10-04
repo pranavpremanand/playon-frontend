@@ -4,7 +4,6 @@ import { AiOutlineMessage } from "react-icons/ai";
 import { useEffect, useRef, useState } from "react";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useNavigate, useParams } from "react-router";
-import { Chat } from "./components/Chat/Chat";
 import { Link } from "react-router-dom";
 import { PiCaretRight } from "react-icons/pi";
 import { FaRegCalendarCheck, FaUserEdit } from "react-icons/fa";
@@ -345,11 +344,6 @@ export const Dashboard = () => {
                 </div>
               </div>
             </div>
-          </div>
-        )}
-        {page === "message" && (
-          <div className="message-div">
-            <Chat />
           </div>
         )}
         {page === "favorites" && (

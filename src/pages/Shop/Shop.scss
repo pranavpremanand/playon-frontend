@@ -77,14 +77,20 @@
       }
       .slider-item {
         height: fit-content !important;
-        .slider-img {
-          height: 14rem !important;
-          @media (max-width: 615px) {
-            height: 13rem !important;
-            object-fit: contain;
-          }
-          @media (max-width: 432px) {
-            object-fit: cover;
+        .image-div{
+          height: fit-content !important;
+          .slider-img {
+            height: 14rem !important;
+            &:hover{
+              transform: scale(1) translateY(0);
+            }
+            @media (max-width: 615px) {
+              height: 13rem !important;
+              object-fit: contain;
+            }
+            @media (max-width: 432px) {
+              object-fit: cover;
+            }
           }
         }
       }

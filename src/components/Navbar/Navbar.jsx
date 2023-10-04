@@ -4,6 +4,7 @@ import { HiOutlineSearch } from "react-icons/hi";
 import {
   AiOutlineMenu,
   AiOutlineMessage,
+  AiOutlineSearch,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -19,7 +20,6 @@ import { LuLayoutDashboard, LuSettings } from "react-icons/lu";
 import { FaRegCalendarCheck, FaUserEdit } from "react-icons/fa";
 import { LiaHeart } from "react-icons/lia";
 import { MdOutlineLocalShipping } from "react-icons/md";
-import { fetchAllProducts, fetchUser, getFavorites } from "../../apiCall";
 import { domainName } from "../../Constants";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import SearchResultItem from "./components/SearchResultItem";
@@ -45,9 +45,8 @@ const dashboardOptions = [
 ];
 
 export const Navbar = () => {
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const [{ showProfileOptions, userLoggedIn }, dispatch] = useStateValue();
-  const { pathname } = useLocation();
+  const [showSearchBox, setShowSearchBox] = useState(false);
+  const [userLoggedIn] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [showDashboardMenu, setShowDashboardMenu] = useState(false);
   const navigate = useNavigate();
@@ -55,44 +54,6 @@ export const Navbar = () => {
   const userEmail = userDetails?.email.split("@")[0];
   const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 981);
-    };
-
-    // Add event listener for window resize
-    window.addEventListener("resize", handleResize);
-
-    // Remove event listener on component unmount
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const customStyles = {
-    borderBottom: pathname !== "/" ? "1px solid #c2c2c2" : "",
-    backgroundColor: pathname === "/" && "#fffbf6",
-    gridTemplateColumns: pathname === "/" ? "1fr 1fr" : undefined,
-  };
-
-  // get all products
-  // useQuery(
-  //   ["products-to-search"],
-  //   fetchAllProducts,
-  //   {
-  //     onSuccess: (data) => {
-  //       setProducts(
-  //         data.data.value.map((product) => {
-  //           const item = {
-  //             id: product.id,
-  //             name: product.title,
-  //             price: product.price,
-  //             image: product.main_image,
-  //           };
-  //           return item;
-  //         })
-  //       );
-  //     },
-  //   }
-  // );
 
   // handle select on search result item
   const handleOnSelect = (item) => {
@@ -100,164 +61,119 @@ export const Navbar = () => {
   };
 
   return (
-    <div className="navbar-main" style={customStyles}>
-      {pathname !== "/" && !userLoggedIn ? (
-        <div className="buttons sm-view-btns">
-          <Link to={"/login"}>
-            <button className="btn-secondary button">log in</button>
-          </Link>
-          <Link to={"/signup"}>
-            <button className="btn-primary button">sign up</button>
+    <div className="navbar-main">
+      <div className="buttons sm-view-btns">
+        <Link to={"/login"}>
+          <button className="btn-secondary button">log in</button>
+        </Link>
+        <Link to={"/signup"}>
+          <button className="btn-primary button">sign up</button>
+        </Link>
+      </div>
+      <div className="logo-and-search">
+        <div>
+          <div
+            className="home-page-menu-icon menu-icon"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <div className="top line"></div>
+            <div className="mid line"></div>
+            <div className="bottom line"></div>
+          </div>
+          <Link to={"/"}>
+            <img src={Logo} alt="logo" className="logo-img" />
           </Link>
         </div>
-      ) : null}
-      <div className="logo-and-search">
-        {pathname !== "/" &&
-        pathname !== "/dashboard/dashboard" &&
-        pathname !== "/dashboard/message" &&
-        pathname !== "/dashboard/my-orders" &&
-        pathname !== "/dashboard/favorites" &&
-        pathname !== "/dashboard/edit-profile" &&
-        pathname !== "/dashboard/shipping" &&
-        pathname !== "/dashboard/settings" &&
-        pathname !== "/dashboard/support-ticket" ? (
-          <AiOutlineMenu
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="menu-icon"
+        <ReactSearchAutocomplete
+          items={products}
+          // onSearch={handleOnSearch}
+          // onHover={handleOnHover}
+          onSelect={handleOnSelect}
+          // onFocus={handleOnFocus}
+          // autoFocus
+          formatResult={SearchResultItem}
+        />
+        <div className="options-buttons">
+          <AiOutlineSearch
+            onClick={() => setShowSearchBox(!showSearchBox)}
+            className="sm-icon"
           />
-        ) : null}
-        {pathname === "/dashboard/dashboard" ||
-        pathname === "/dashboard/message" ||
-        pathname === "/dashboard/my-orders" ||
-        pathname === "/dashboard/favorites" ||
-        pathname === "/dashboard/edit-profile" ||
-        pathname === "/dashboard/shipping" ||
-        pathname === "/dashboard/settings" ||
-        pathname === "/dashboard/support-ticket" ? (
-          <AiOutlineMenu
-            onClick={() => setShowDashboardMenu(!showDashboardMenu)}
-            className="menu-icon"
-          />
-        ) : null}
-        <Link to={"/"}>
-          <img src={Logo} alt="logo" className="logo-img" />
-        </Link>
-        {pathname !== "/" && (
-          // <>
-          //   <div className="search-box">
-          //     <input type="text" placeholder="Search" />
-          //     <HiOutlineSearch className="icon" />
-          //   </div>
-          // </>
-          <ReactSearchAutocomplete
-            items={products}
-            // onSearch={handleOnSearch}
-            // onHover={handleOnHover}
-            onSelect={handleOnSelect}
-            // onFocus={handleOnFocus}
-            // autoFocus
-            formatResult={SearchResultItem}
-          />
-        )}
-        {userLoggedIn && pathname !== "/" ? (
-          <>
-            <Link to={"/checkout"} className="underline-none">
-              <AiOutlineShoppingCart className="sm-cart-icon" />
-            </Link>
-            <div
-              className="profile sm-view-profile"
-              onClick={() =>
-                dispatch({
-                  type: "PROFILE_OPTIONS_VIEW",
-                  status: !showProfileOptions,
-                })
-              }
-            >
-              <img
-                src={
-                  userDetails.profile_image
-                    ? `${domainName}${userDetails?.profile_image}`
-                    : "https://img.freepik.com/free-icon/user_318-159711.jpg"
-                }
-                alt="profile"
-                className="profile-img"
-              />
-              {/* <span>{userDetails?.name || userEmail}</span> */}
-              <PiCaretDownBold className="icon" />
-            </div>
-          </>
-        ) : null}
+          {userLoggedIn ? (
+            <>
+              <Link to={"/checkout"} className="underline-none">
+                <AiOutlineShoppingCart className="sm-icon" />
+              </Link>
+              <div className="profile sm-view-profile">
+                <img
+                  src={"https://img.freepik.com/free-icon/user_318-159711.jpg"}
+                  alt="profile"
+                  className="profile-img"
+                />
+                {/* <span>{userDetails?.name || userEmail}</span> */}
+              </div>
+            </>
+          ) : null}
+        </div>
       </div>
-      {pathname !== "/" ? (
-        <div className="options">
-          <ul>
-            <Link to={"/shop"} className="underline-none">
-              <li>shop</li>
-            </Link>
-            {/* <Link className="underline-none">
+      <div className="options">
+        <ul>
+          <Link to={"/shop"} className="underline-none">
+            <li>shop</li>
+          </Link>
+          {/* <Link className="underline-none">
               <li>club jerseys</li>
             </Link>
             <Link to={"/build-custom-art"} className="underline-none">
               <li>international jerseys</li>
             </Link> */}
-            <Link to={"/about-us"} className="underline-none">
-              <li>about us</li>
-            </Link>
-            <Link to={"/contact-us"} className="underline-none">
-              <li>contact us</li>
-            </Link>
-            {userLoggedIn ? (
-              <>
-                <Link to={"/checkout"} className="underline-none">
-                  <li>
-                    <AiOutlineShoppingCart className="cart-icon" />
-                  </li>
-                </Link>
+          <Link to={"/about-us"} className="underline-none">
+            <li>about us</li>
+          </Link>
+          <Link to={"/contact-us"} className="underline-none">
+            <li>contact us</li>
+          </Link>
+          {userLoggedIn ? (
+            <>
+              <Link to={"/checkout"} className="underline-none">
                 <li>
-                  <div
-                    className="profile"
-                    onClick={() =>
-                      dispatch({
-                        type: "PROFILE_OPTIONS_VIEW",
-                        status: !showProfileOptions,
-                      })
-                    }
-                  >
-                    <img
-                      src={
-                        userDetails.profile_image
-                          ? `${domainName}${userDetails?.profile_image}`
-                          : "https://img.freepik.com/free-icon/user_318-159711.jpg"
-                      }
-                      alt="profile"
-                      className="profile-img"
-                    />
-                    <span>{userDetails?.name || userEmail}</span>
-                    <PiCaretDownBold className="icon" />
-                  </div>
+                  <AiOutlineShoppingCart className="cart-icon" />
                 </li>
-              </>
-            ) : (
-              <>
-                <Link to={"/login"} className="underline-none">
+              </Link>
+              <li>
+                <div className="profile">
+                  <img
+                    src={
+                      "https://img.freepik.com/free-icon/user_318-159711.jpg"
+                    }
+                    alt="profile"
+                    className="profile-img"
+                  />
+                  <span>{userDetails?.name || userEmail}</span>
+                </div>
+              </li>
+            </>
+          ) : (
+            <>
+              {/* <Link to={"/login"} className="underline-none">
                   <li>log in</li>
                 </Link>
                 <Link to={"/signup"} className="underline-none">
                   <li>sign up</li>
-                </Link>
-              </>
-            )}
-          </ul>
-        </div>
-      ) : (
-        <div
-          className="home-page-menu-icon"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          <div className="top line"></div>
-          <div className="mid line"></div>
-          <div className="bottom line"></div>
-        </div>
+                </Link> */}
+            </>
+          )}
+        </ul>
+      </div>
+      {showSearchBox && (
+        <ReactSearchAutocomplete
+          items={products}
+          // onSearch={handleOnSearch}
+          // onHover={handleOnHover}
+          onSelect={handleOnSelect}
+          // onFocus={handleOnFocus}
+          // autoFocus
+          formatResult={SearchResultItem}
+        />
       )}
 
       <Offcanvas

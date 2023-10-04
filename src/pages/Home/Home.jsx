@@ -5,7 +5,6 @@ import { Slide } from "react-slideshow-image";
 import { ProductCard } from "./components/ProductCard/ProductCard";
 import GridImg1 from "../../assets/images/grid1.jpeg";
 import GridImg2 from "../../assets/images/grid2.jpeg";
-import PlayIcon from "../../assets/images/play-icon.png";
 import { Accordion } from "./components/Accordion/Accordion";
 import { BestSelling } from "../../components/BestSelling/BestSelling";
 import { useQuery } from "@tanstack/react-query";
@@ -20,6 +19,7 @@ import pdt5 from "../../assets/products/liverpool.webp";
 import pdt6 from "../../assets/products/man-city.webp";
 import { ProductItem } from "../../components/ProductItem/ProductItem";
 import { ImQuotesRight, ImQuotesLeft } from "react-icons/im";
+import { useKeenSlider } from "keen-slider/react";
 
 const qaContent = [
   "What can I sell?",
@@ -109,6 +109,50 @@ export const Home = () => {
     }
   );
 
+  const animation = { duration: 5000, easing: (t) => t };
+
+  const [sliderRef] = useKeenSlider(
+    {
+      breakpoints: {
+        "(min-width: 300px)": {
+          slides: { perView: 2, spacing: 5 },
+        },
+        "(min-width: 500px)": {
+          slides: { perView: 2.5, spacing: 5 },
+        },
+        "(min-width: 650px)": {
+          slides: { perView: 3, spacing: 5 },
+        },
+        "(min-width: 760px)": {
+          slides: { perView: 3.5, spacing: 5 },
+        },
+        "(min-width: 850px)": {
+          slides: { perView: 4, spacing: 5 },
+        },
+        "(min-width: 1060px)": {
+          slides: { perView: 5, spacing: 10 },
+        },
+        "(min-width: 1300px)": {
+          slides: { perView: 6, spacing: 10 },
+        },
+      },
+      slides: { perView: 1 },
+      loop: true,
+      mode: "free",
+      renderMode: "performance",
+      // drag: false,
+      created(s) {
+        s.moveToIdx(2, true, animation);
+      },
+      updated(s) {
+        s.moveToIdx(s.track.details.abs + 2, true, animation);
+      },
+      animationEnded(s) {
+        s.moveToIdx(s.track.details.abs + 2, true, animation);
+      },
+    }
+  );
+
   return (
     <div className="home-container">
       <div className="banner" data-aos="fade-up">
@@ -138,42 +182,19 @@ export const Home = () => {
       <h1 data-aos="fade-down" className="slider-header">
         Fans' Favorites
       </h1>
-      <div className="slider" data-aos="fade-up">
-        {/* {!recentProductsLoading ? ( */}
-        <Slide
-          slidesToScroll={2}
-          slidesToShow={5}
-          indicators={false}
-          transitionDuration={300}
-          responsive={responsiveSettings}
-          prevArrow={<IoIosArrowBack className="slick-prev" />}
-          nextArrow={<IoIosArrowForward className="slick-next" />}
-          autoplay={true}
-          canSwipe={true}
-        >
-          {products.map((item, i) => {
-            return <ProductItem item={item} key={i} />;
-          })}
-        </Slide>
-        {/* ) : (
-          <Slide
-            slidesToScroll={2}
-            slidesToShow={5}
-            indicators={false}
-            transitionDuration={700}
-            responsive={responsiveSettings}
-            prevArrow={<IoIosArrowBack className="slick-prev" />}
-            nextArrow={<IoIosArrowForward className="slick-next" />}
-            autoplay={true}
-            canSwipe={true}
-          >
-            <div class="loading-card"></div>
-            <div class="loading-card"></div>
-            <div class="loading-card"></div>
-            <div class="loading-card"></div>
-            <div class="loading-card"></div>
-          </Slide>
-        )} */}
+      <div className="slider keen-slider" ref={sliderRef} data-aos="fade-up">
+        {products.map((item, i) => {
+          return <ProductItem item={item} key={i} />;
+        })}
+        
+          {/* <div class="loading-card keen-slider__slide"></div>
+          <div class="loading-card keen-slider__slide"></div>
+          <div class="loading-card keen-slider__slide"></div>
+          <div class="loading-card keen-slider__slide"></div>
+          <div class="loading-card keen-slider__slide"></div>
+          <div class="loading-card keen-slider__slide"></div>
+          <div class="loading-card keen-slider__slide"></div> */}
+       
       </div>
       <section className="about">
         <div className="about-the-company" data-aos="fade-up">

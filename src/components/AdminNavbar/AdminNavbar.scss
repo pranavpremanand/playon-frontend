@@ -1,0 +1,66 @@
+@import "../../App.scss";
+
+.navbar-main {
+  background-color: #fff !important;
+  width: 100%;
+  padding: 1.3rem 1.3rem 1.3rem 1.3rem;
+  position: sticky;
+  top: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  z-index: 99;
+  
+  @media (max-width: 1000px) {
+    padding: 1rem 1rem 1rem 1rem;
+  }
+
+  .button {
+    width: fit-content;
+    @include buttonStyles();
+  }
+  .logo-and-search {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    .logo-img {
+      width: 7rem;
+      object-fit: contain;
+    }
+  }
+
+  .options {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: -1rem;
+    ul {
+      display: flex;
+      list-style: none;
+      gap: 5rem;
+      justify-content: flex-end;
+      width: 100%;
+      align-items: center;
+      @media(max-width:450px){
+        gap: 2rem;
+      }
+      li {
+        text-decoration: none;
+        color: #111;
+        text-transform: uppercase;
+        .cart-icon {
+          font-size: 1.4rem !important;
+        }
+      }
+    }
+    .button {
+      width: fit-content;
+      @include buttonStyles();
+    }
+  }
+}

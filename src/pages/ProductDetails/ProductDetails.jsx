@@ -27,11 +27,60 @@ import { useStateValue } from "../../StateProvider";
 import { Slide } from "react-slideshow-image";
 import { Rating } from "react-simple-star-rating";
 import { products } from "../Home/Home";
+import { useKeenSlider } from "keen-slider/react";
+
+function ThumbnailPlugin(mainRef) {
+  return (slider) => {
+    function removeActive() {
+      slider.slides.forEach((slide) => {
+        slide.classList.remove("active");
+      });
+    }
+    function addActive(idx) {
+      slider.slides[idx].classList.add("active");
+    }
+
+    function addClickEvents() {
+      slider.slides.forEach((slide, idx) => {
+        slide.addEventListener("click", () => {
+          if (mainRef.current) mainRef.current.moveToIdx(idx);
+        });
+      });
+    }
+
+    slider.on("created", () => {
+      if (!mainRef.current) return;
+      addActive(slider.track.details.rel);
+      addClickEvents();
+      mainRef.current.on("animationStarted", (main) => {
+        removeActive();
+        const next = main.animator.targetIdx || 0;
+        addActive(main.track.absToRel(next));
+        slider.moveToIdx(Math.min(slider.track.details.maxIdx, next));
+      });
+    });
+  };
+}
 
 export const ProductDetails = () => {
   const [{ favorites, userLoggedIn }, dispatch] = useStateValue();
   const { productId } = useParams();
   const [liked, setLiked] = useState(false);
+
+  const [sliderRef, instanceRef] = useKeenSlider({
+    initial: 0,
+    loop: true,
+  });
+  const [thumbnailRef] = useKeenSlider(
+    {
+      initial: 0,
+      slides: {
+        perView: 4,
+        // spacing: 10,
+      },
+    },
+    [ThumbnailPlugin(instanceRef)]
+  );
 
   // useEffect(() => {
   //   setLiked(favorites.some((item) => item.id === parseInt(productId)));
@@ -39,109 +88,23 @@ export const ProductDetails = () => {
 
   const [product, setProduct] = useState({});
   const navigate = useNavigate();
-  const [currentSlide, setCurrentSlide] = useState(null);
+  const [selectedSize, setSelectedSize] = useState("");
   const [buyNowClicked, setBuyNowClicked] = useState(false);
 
-  // fetch product info
-  // const { data, isLoading } = useQuery(
-  //   ["product-info", productId],
-  //   fetchProductInfo,
-  //   {
-  //     onSuccess: (data) => {
-  //       setProduct(data.data?.value);
-  //       console.log(data.data?.value, "data is here");
-  //     },
-  //     onError: (err) => {
-  //       console.log(err, "ERROR");
-  //       if (err.message) {
-  //         toast.error(err.message);
-  //       } else {
-  //         toast.error("Something went wrong");
-  //       }
-  //     },
-  //   }
-  // );
-
-  // const changeCurrentSlide = (type) => {
-  //   if (type === "+") {
-  //     if (currentSlide === product?.sub_images?.length - 1) {
-  //       setCurrentSlide(0);
-  //     } else {
-  //       setCurrentSlide((prev) => prev + 1);
-  //     }
-  //   } else {
-  //     if (currentSlide === 0 || !currentSlide) {
-  //       setCurrentSlide(product.sub_images?.length - 1);
-  //     } else {
-  //       setCurrentSlide((prev) => prev - 1);
-  //     }
-  //   }
-  // };
-
-  // cart mutation function
-  // const addToCartMutation = useMutation({
-  //   mutationFn: addToCart,
-  //   onSuccess: (data) => {
-  //     if (data.data?.status[0]?.Error === "False") {
-  //       toast.success(`${product.title} added to cart`);
-  //       // queryClient.invalidateQueries("cart");
-  //     }
-  //     if(buyNowClicked){
-  //       setBuyNowClicked(false)
-  //       navigate('/checkout')
-  //     }
-  //   },
-  //   onError: (err) => {
-  //     console.log(err, "error");
-  //   },
-  // });
-
   // add item to cart
-  const addProductToCart = (pdtId) => {
-    // if (!userLoggedIn) {
-    //   navigate("/login");
-    // } else {
-    //   addToCartMutation.mutate({ productId: pdtId, quantity: 1 });
-    // }
-  };
+  const addProductToCart = (pdtId) => {};
 
   // add item to favorite list
-  const addToFavoritesList = async () => {
-    // if (!userLoggedIn) {
-    //   navigate("/login");
-    // } else {
-    //   setLiked(true);
-    //   try {
-    //     const response = await addToFavorites(product.id);
-    //     console.log(response.data, "addToFavorites");
-    //     if (response.data?.status[0].Error === "False") {
-    //       toast.success(`${product.title} added to favorites`);
-    //       dispatch({
-    //         type: "ADD_TO_FAVORITES_LIST",
-    //         item: { ...product, main_image: `/uploads/${product.main_image}` },
-    //       });
-    //     }
-    //   } catch (err) {
-    //     console.log(err, "addToFavorites error");
-    //   }
-    // }
-  };
+  const addToFavoritesList = async () => {};
 
   // remove item from favorite list
-  const removeFromFavoritesList = async () => {
-    // setLiked(false);
-    // try {
-    //   const response = await removeFromFavorites(product.id);
-    //   console.log(response.data, "removeFromFavorites");
-    //   if (response.data?.status[0].Error === "False") {
-    //     toast.success(`${product.title} removed from favorites`);
-    //     dispatch({ type: "REMOVE_FROM_FAVORITES_LIST", item: product });
-    //   }
-    // } catch (err) {
-    //   console.log(err, "removeFromFavorites error");
-    // }
-  };
+  const removeFromFavoritesList = async () => {};
 
+  // handle size selection
+  const handleSelectSize = (e) => {
+    console.log(e);
+    setSelectedSize(e.target.value);
+  };
   return (
     <div className="main">
       <div className="routes">
@@ -157,8 +120,8 @@ export const ProductDetails = () => {
       </div>
       <div className="product-container">
         <div className="images-container" data-aos="fade-right">
-          <div className="image-main">
-            <div className="icon-bg">
+          <div className="image-main keen-slider" ref={sliderRef}>
+            {/* <div className="icon-bg">
               <PiCaretLeft className="icon" />
             </div>
             <div className="icon-bg">
@@ -166,13 +129,15 @@ export const ProductDetails = () => {
                 className="icon"
                 // onClick={() => changeCurrentSlide("+")}
               />
-            </div>
-            <img src={products[0]} alt="" />
+            </div> */}
+            <img src={products[0]} alt="" className="keen-slider__slide" />
+            <img src={products[2]} alt="" className="keen-slider__slide" />
+            <img src={products[1]} alt="" className="keen-slider__slide" />
           </div>
-          <div className="sub-images">
-            <img className="active" src={products[0]} alt="" />
-            <img src={products[0]} alt="" />
-            <img src={products[0]} alt="" />
+          <div ref={thumbnailRef} className="keen-slider thumbnail sub-images">
+            <img src={products[0]} alt="" className="keen-slider__slide" />
+            <img src={products[2]} alt="" className="keen-slider__slide" />
+            <img src={products[1]} alt="" className="keen-slider__slide" />
           </div>
           <div className="options">
             <div>
@@ -220,6 +185,43 @@ export const ProductDetails = () => {
             className="rating-icons"
           />
           <h2>₹2500</h2>
+          <div className="sizes-div">
+            <button
+              onClick={handleSelectSize}
+              value="XS"
+              className={`size ${selectedSize === "XS" && "active"}`}
+            >
+              XS
+            </button>
+            <button
+              onClick={handleSelectSize}
+              value="S"
+              className={`size ${selectedSize === "S" && "active"}`}
+            >
+              S
+            </button>
+            <button
+              onClick={handleSelectSize}
+              value="M"
+              className={`size ${selectedSize === "M" && "active"}`}
+            >
+              M
+            </button>
+            <button
+              onClick={handleSelectSize}
+              value="L"
+              className={`size ${selectedSize === "L" && "active"}`}
+            >
+              L
+            </button>
+            <button
+              onClick={handleSelectSize}
+              value="XL"
+              className={`size ${selectedSize === "XL" && "active"}`}
+            >
+              XL
+            </button>
+          </div>
           {/* {product.current_stock > 0 ? ( */}
           <>
             <div className="buttons">

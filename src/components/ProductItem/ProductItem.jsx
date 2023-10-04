@@ -56,18 +56,20 @@ export const ProductItem = ({ item }) => {
     // }
   };
   return (
-    <div className="art slider-item">
-      <img
-        onClick={() => navigate(`/product-info/${item?.id}`)}
-        src={item}
-        // src={
-        //   pathname === "/dashboard/favorites"
-        //     ? `${domainName}${item.main_image}`
-        //     : `${domainName}/uploads/${item.main_image}`
-        // }
-        alt="product"
-        className="slider-img"
-      />
+    <div className="art slider-item keen-slider__slide">
+      <div className="image-div">
+        <img
+          onClick={() => navigate(`/product-info/${item?.id}`)}
+          src={item}
+          // src={
+          //   pathname === "/dashboard/favorites"
+          //     ? `${domainName}${item.main_image}`
+          //     : `${domainName}/uploads/${item.main_image}`
+          // }
+          alt="product"
+          className="slider-img"
+        />
+      </div>
       <div className="details">
         <div className="flex-between">
           <span>Jersey</span>
