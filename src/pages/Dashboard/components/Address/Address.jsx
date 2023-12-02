@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "./Address.scss";
 import { useForm } from "react-hook-form";
-import { deleteAddress, updateAddress } from "../../../../apiCall";
 import { toast } from "react-hot-toast";
 import { useStateValue } from "../../../../StateProvider";
 import axios from "axios";
@@ -69,16 +68,7 @@ export const Address = ({
         address_id: address.id,
       };
       try {
-        const response = await updateAddress(values);
-        console.log(response, "response");
-        if (response.data?.status[0].Error === "False") {
-          toast.success("Address updated successfully");
-          queryClient.invalidateQueries(["addresses"]);
-          setEditOpen(false);
-          setEditStatus(false);
-        } else {
-          toast.error(response.data?.status[0].ResponseMessage);
-        }
+        
       } catch (err) {
         console.log(err);
         if (err.message) {
@@ -105,21 +95,6 @@ export const Address = ({
 
   // delete address
   const doDelete = async () => {
-    try {
-      const response = await deleteAddress(address.id);
-      if (response.data?.status[0]?.Error === "False") {
-        toast.success(response.data?.status[0]?.ResponseMessage);
-        dispatch({ type: "DELETE_USER_ADDRESS", id: address.id });
-      } else {
-        toast.error(response.data?.status[0].ResponseMessage);
-      }
-    } catch (err) {
-      if (err.message) {
-        toast.error(err.message);
-      } else {
-        toast.error("Something went wrong");
-      }
-    }
   };
 
   // pincode handler

@@ -4,12 +4,10 @@ import { Collapse, Modal } from "react-bootstrap";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 import StepProgressbar from "../../../../components/StepProgressbar/StepProgressbar";
 import artImg from "../../../../assets/arts/art (5).png";
-import { domainName } from "../../../../Constants";
 import { useNavigate } from "react-router-dom";
 import { Rating } from "react-simple-star-rating";
 import { IoCloseSharp } from "react-icons/io5";
 import { BsPersonCircle } from "react-icons/bs";
-import { addReview, editReview, getReviews } from "../../../../apiCall";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 
@@ -154,20 +152,20 @@ export const ProductReviewModal = ({
 
   useEffect(() => setReviewData(null), []);
 
-  useQuery({
-    queryKey: ["review", reviewingProductId],
-    queryFn: () => getReviews(reviewingProductId),
-    onSuccess: (response) => {
-      setReviewData(
-        response.data?.value.reviews.find(
-          (review) => review.email === user?.email
-        )
-      );
-    },
-    onError: (err) => {
-      // handle error
-    },
-  });
+  // useQuery({
+  //   queryKey: ["review", reviewingProductId],
+  //   queryFn: () => getReviews(reviewingProductId),
+  //   onSuccess: (response) => {
+  //     setReviewData(
+  //       response.data?.value.reviews.find(
+  //         (review) => review.email === user?.email
+  //       )
+  //     );
+  //   },
+  //   onError: (err) => {
+  //     // handle error
+  //   },
+  // });
 
   useEffect(() => {
     setRating(reviewData?.ratings);
@@ -181,42 +179,42 @@ export const ProductReviewModal = ({
 
   // submit review
   const submitReview = async () => {
-    const data = {
-      productId: reviewingProductId,
-      ratings: rating,
-      review,
-    };
-    try {
-      const response = await addReview(data);
-      if (response.data?.status[0].Error === "False") {
-        toast.success("Review submitted");
-        props.onHide();
-      } else {
-        toast.error(response.data?.status[0].ResponseMessage);
-      }
-    } catch (err) {
-      toast.error(err.message);
-    }
+    // const data = {
+    //   productId: reviewingProductId,
+    //   ratings: rating,
+    //   review,
+    // };
+    // try {
+    //   const response = await addReview(data);
+    //   if (response.data?.status[0].Error === "False") {
+    //     toast.success("Review submitted");
+    //     props.onHide();
+    //   } else {
+    //     toast.error(response.data?.status[0].ResponseMessage);
+    //   }
+    // } catch (err) {
+    //   toast.error(err.message);
+    // }
   };
 
   // update review
   const updateReview = async () => {
-    const data = {
-      productId: reviewingProductId,
-      ratings: rating,
-      review,
-    };
-    try {
-      const response = await editReview(data);
-      if (response.data?.status[0].Error === "False") {
-        toast.success("Review updated");
-        props.onHide();
-      } else {
-        toast.error(response.data?.status[0].ResponseMessage);
-      }
-    } catch (err) {
-      toast.error(err.message);
-    }
+    // const data = {
+    //   productId: reviewingProductId,
+    //   ratings: rating,
+    //   review,
+    // };
+    // try {
+    //   const response = await editReview(data);
+    //   if (response.data?.status[0].Error === "False") {
+    //     toast.success("Review updated");
+    //     props.onHide();
+    //   } else {
+    //     toast.error(response.data?.status[0].ResponseMessage);
+    //   }
+    // } catch (err) {
+    //   toast.error(err.message);
+    // }
   };
 
   // cancel review
@@ -243,7 +241,7 @@ export const ProductReviewModal = ({
               <BsPersonCircle className="icon" />
             ) : (
               <img
-                src={`${domainName}${user?.profile_image}`}
+                src={`${user?.profile_image}`}
                 alt="profile"
                 className="profile_img"
               />
@@ -309,7 +307,7 @@ export const InvoiceModal = ({ order, ...props }) => {
         {order.product.map((item) => (
           <div className="product-details">
             <img
-              src={`${domainName}/uploads/${item.productDetail.main_image}`}
+              src={`${item.productDetail.main_image}`}
               alt="product"
             />
             <div>
@@ -356,7 +354,7 @@ const ProductDetails = ({
   return (
     <div className="art-details" key={product.productDetail.id}>
       <img
-        src={`${domainName}/uploads/${product.productDetail.main_image}`}
+        src={`${product.productDetail.main_image}`}
         alt="art"
         onClick={() => navigate(`/product-info/${product.productDetail.id}`)}
       />

@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { LoginBackgroundImage } from "../../components/LoginBackgroundImage/LoginBackgroundImage";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { checkEmailAvailability, googleLogin, signup } from "../../apiCall";
 import { toast } from "react-hot-toast";
 import { useStateValue } from "../../StateProvider";
 import { useGoogleLogin } from "@react-oauth/google";

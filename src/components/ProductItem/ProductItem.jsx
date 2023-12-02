@@ -4,9 +4,7 @@ import "./ProductItem.scss";
 import { useEffect, useState } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { useNavigate } from "react-router";
-import { domainName } from "../../Constants";
 import { useStateValue } from "../../StateProvider";
-import { addToFavorites, removeFromFavorites } from "../../apiCall";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-hot-toast";
 

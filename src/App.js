@@ -9,7 +9,6 @@ import { Shop } from "./pages/Shop/Shop";
 import { ProductDetails } from "./pages/ProductDetails/ProductDetails";
 import { useEffect } from "react";
 import { useStateValue } from "./StateProvider";
-import { Settings } from "./pages/Settings/Settings";
 import { Dashboard } from "./pages/Dashboard/Dashboard";
 import { ForgotPassword } from "./pages/ForgotPassword/ForgotPassword";
 import { ContactUs } from "./pages/ContactUs/ContactUs";
@@ -19,9 +18,7 @@ import { ProtectRoute, PublicRoute } from "./ProtectRoutes";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useQuery } from "@tanstack/react-query";
-import { fetchUser, getFavorites } from "./apiCall";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { googleClientId } from "./Constants";
 import { LoadingSpinner } from "./components/LoadingSpinner";
 import AdminLogin from "./pages/AdminPages/Login/AdminLogin";
 import { AdminNavbar } from "./components/AdminNavbar/AdminNavbar";
@@ -50,34 +47,10 @@ function App() {
     // offset:220
   });
 
-  // Get user data
-  useQuery({
-    queryKey: ["user-data"],
-    queryFn: fetchUser,
-    onSuccess: (data) => {
-      // console.log(data.data);
-      if (data.data?.user) {
-        sessionStorage.setItem("user_details", JSON.stringify(data.data.user));
-      }
-    },
-    onError: (err) => {
-      // handle error
-    },
-  });
-
-  // get list of favorites
-  useQuery(["favorites"], getFavorites, {
-    onSuccess: (data) => {
-      if (data.data?.status[0]?.Error === "False") {
-        dispatch({ type: "SET_FAVORITE_LIST", data: data.data.value });
-      }
-    },
-    onError: (err) => console.log(err),
-  });
   return (
     <div
     >
-      <GoogleOAuthProvider clientId={googleClientId}>
+      <GoogleOAuthProvider clientId={'googleClientId'}>
         <BrowserRouter>
           <Toaster position="top-center" reverseOrder={false} />
           {isLoading && <LoadingSpinner />}

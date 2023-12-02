@@ -18,8 +18,6 @@ import { LuLayoutDashboard, LuSettings } from "react-icons/lu";
 import { FaRegCalendarCheck, FaUserEdit } from "react-icons/fa";
 import { LiaHeart } from "react-icons/lia";
 import { MdOutlineLocalShipping } from "react-icons/md";
-import { fetchAllProducts, fetchUser, getFavorites } from "../../apiCall";
-import { domainName } from "../../Constants";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 
 const menuOptions = [

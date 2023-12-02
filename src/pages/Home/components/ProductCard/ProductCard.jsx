@@ -4,8 +4,6 @@ import "./ProductCard.scss";
 import { useEffect, useState } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { useNavigate } from "react-router";
-import { domainName } from "../../../../Constants";
-import { addToFavorites, removeFromFavorites } from "../../../../apiCall";
 import { useStateValue } from "../../../../StateProvider";
 import { toast } from "react-hot-toast";
 

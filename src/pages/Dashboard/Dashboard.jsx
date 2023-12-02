@@ -14,18 +14,7 @@ import EmptyWishlistImg from "../../assets/images/empty-favorites.png";
 import { ProductItem } from "../../components/ProductItem/ProductItem";
 import { Shipping } from "./components/Shipping/Shipping";
 import { useForm } from "react-hook-form";
-import {
-  cancelOrder,
-  changeNotificationStatus,
-  getAddresses,
-  getNotificationDetails,
-  getOrders,
-  returnOrder,
-  updateProfileImg,
-  updateUser,
-} from "../../apiCall";
 import { toast } from "react-hot-toast";
-import { domainName } from "../../Constants";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useStateValue } from "../../StateProvider";
 import { Modal } from "react-bootstrap";

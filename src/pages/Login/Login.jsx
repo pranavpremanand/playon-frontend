@@ -3,7 +3,6 @@ import { ReactComponent as GoogleIcon } from "../../assets/svgs/google-icon.svg"
 import { Link, useNavigate } from "react-router-dom";
 import { LoginBackgroundImage } from "../../components/LoginBackgroundImage/LoginBackgroundImage";
 import { useForm } from "react-hook-form";
-import { googleLogin, login } from "../../apiCall";
 import { useStateValue } from "../../StateProvider";
 import { toast } from "react-hot-toast";
 import { useGoogleLogin } from "@react-oauth/google";

@@ -8,7 +8,7 @@ import GridImg2 from "../../assets/images/grid2.jpeg";
 import { Accordion } from "./components/Accordion/Accordion";
 import { BestSelling } from "../../components/BestSelling/BestSelling";
 import { useQuery } from "@tanstack/react-query";
-import { fetchRecentProducts, getFavorites } from "../../apiCall";
+import { fetchRecentProducts, getFavorites } from "../../utils/APIs";
 import { useStateValue } from "../../StateProvider";
 import { useState } from "react";
 import pdt1 from "../../assets/products/argentina.webp";
@@ -182,7 +182,7 @@ export const Home = () => {
       <h1 data-aos="fade-down" className="slider-header">
         Fans' Favorites
       </h1>
-      <div className="slider keen-slider" ref={sliderRef} data-aos="fade-up">
+      <div className="slider keen-slider" ref={sliderRef} data-aos="fade-left">
         {products.map((item, i) => {
           return <ProductItem item={item} key={i} />;
         })}

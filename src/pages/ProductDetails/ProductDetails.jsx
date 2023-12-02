@@ -15,14 +15,7 @@ import { useEffect, useState } from "react";
 import { BestSelling } from "../../components/BestSelling/BestSelling";
 import { Accordion } from "../Home/components/Accordion/Accordion";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  addToCart,
-  addToFavorites,
-  fetchProductInfo,
-  removeFromFavorites,
-} from "../../apiCall";
 import { toast } from "react-hot-toast";
-import { domainName } from "../../Constants";
 import { useStateValue } from "../../StateProvider";
 import { Slide } from "react-slideshow-image";
 import { Rating } from "react-simple-star-rating";

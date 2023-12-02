@@ -5,7 +5,7 @@ import { Address } from "../Address/Address";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addAddress } from "../../../../apiCall";
+import { addAddress } from "../../../../utils/APIs";
 import { toast } from "react-hot-toast";
 
 export const Shipping = ({

@@ -1,19 +1,19 @@
 @import "../../App.scss";
 
 .main {
-  padding: 1.5rem;
   font-size: 1.1rem;
   .routes {
     display: flex;
     gap: 0.4rem;
     align-items: center;
+    padding-inline: 2rem;
     .underline-none,
     .icon {
       color: #626262;
     }
   }
   .product-container {
-    padding: 2rem 0;
+    padding: 2rem 1.5rem;;
     display: flex;
     justify-content: space-between;
     gap: 3rem;
@@ -87,7 +87,10 @@
           cursor: pointer;
         }
         .active {
-          border-bottom: 2px solid #626262;
+          border: 2px solid #626262;
+        }
+        .active:last-of-type {
+          border: 2px solid #626262;
         }
         :last-child {
           border-right: 1px solid #626262;

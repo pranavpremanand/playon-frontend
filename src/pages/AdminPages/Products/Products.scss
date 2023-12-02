@@ -21,12 +21,45 @@
           label {
             font-weight: 600;
           }
-          input {
+          input:not([type="checkbox"]),
+          select {
             outline: none;
-            width: 100%;
             border: 1px solid #c2c2c2;
+            width: 100%;
             padding: 0.5rem;
             border-radius: 0.2rem;
+          }
+          input[type="checkbox"] {
+            width: 1.4rem;
+            height: 1.4rem;
+            accent-color: $color-primary;
+          }
+          .checkboxes .item input[type="number"] {
+            height: 1.8rem;
+            width: 5rem;
+          }
+          .checkboxes .item {
+            margin-bottom: 1rem;
+          }
+        }
+        .images {
+          .selected-imgs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            max-width: 80vw;
+            margin-top: 2rem;
+            img {
+              height: 10rem;
+              aspect-ratio: 1;
+              object-fit: cover;
+            }
+          }
+          .item {
+            display: flex;
+            flex-direction: column;
+            gap: 0 !important;
+            align-items: flex-start;
           }
         }
         .buttons {
@@ -40,7 +73,7 @@
   .table-container {
     margin-top: 3rem;
     tbody {
-        width: 100%;
+      width: 100%;
       td:nth-of-type(2) {
         width: 100%;
         input {
@@ -54,10 +87,10 @@
       td:nth-of-type(4) {
         cursor: pointer;
       }
-      td:nth-of-type(3){
+      td:nth-of-type(3) {
         color: #0d9c08;
       }
-      td:nth-of-type(4){
+      td:nth-of-type(4) {
         color: $color-primary;
       }
     }

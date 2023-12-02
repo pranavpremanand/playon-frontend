@@ -2,7 +2,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Slide } from "react-slideshow-image";
 import { ProductItem } from "../ProductItem/ProductItem";
 import "./BestSelling.scss";
-import { fetchPopularProducts } from "../../apiCall";
+import { fetchPopularProducts } from "../../utils/APIs";
 import { useQuery } from "@tanstack/react-query";
 import { useStateValue } from "../../StateProvider";
 import { products, responsiveSettings } from "../../pages/Home/Home";
@@ -66,7 +66,7 @@ export const BestSelling = () => {
   return (
     <section className="best-selling">
       <h2 data-aos="fade-down">Best Selling</h2>
-      <div className="slider keen-slider" ref={sliderRef} data-aos="fade-up">
+      <div className="slider keen-slider" ref={sliderRef} data-aos="fade-left">
         {products.map((item) => {
           return <ProductItem item={item} />;
         })}

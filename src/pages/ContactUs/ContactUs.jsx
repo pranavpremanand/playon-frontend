@@ -2,7 +2,7 @@ import "./ContactUs.scss";
 import Img from "../../assets/images/contact-us-img.png";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { contact } from "../../apiCall";
+import { contact } from "../../utils/APIs";
 import { useStateValue } from "../../StateProvider";
 
 export const ContactUs = () => {

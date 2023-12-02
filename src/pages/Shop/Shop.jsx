@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Offcanvas } from "react-bootstrap";
 import { GrFormClose } from "react-icons/gr";
 import { useQuery } from "@tanstack/react-query";
-import { categoriesList, fetchAllProducts } from "../../apiCall";
+import { categoriesList, fetchAllProducts } from "../../utils/APIs";
 import { toast } from "react-hot-toast";
 import { useStateValue } from "../../StateProvider";
 import { products } from "../Home/Home";
@@ -206,6 +206,7 @@ export const Shop = () => {
         </button>
       </div>
       <div className="products-container">
+        {/* 
         <div className="filters-lg filters" data-aos="fade-right">
           <h2>Filter By</h2>
           <div className="filter-box">
@@ -241,22 +242,12 @@ export const Shop = () => {
               />
               <span>Price: high to low</span>
             </div>
-            <div className="filter-item">
-              <input
-                type="checkbox"
-                className="checkbox"
-                onChange={(e) => handleSort(e)}
-                value="available-for-rent"
-                checked={filterRentItems && sortType === ""}
-              />
-              <span>Available for rent</span>
-            </div>
-          </div>
+          </div> */}
 
-          <div className="filter-box">
+        {/* <div className="filter-box">
             <h4>Medium</h4>
-            <div className="underline"></div>
-            {/* {categories?.data?.value.map((item) => (
+            <div className="underline"></div> */}
+        {/* {categories?.data?.value.map((item) => (
               <div className="filter-item" key={item.id}>
                 <input
                   type="checkbox"
@@ -266,9 +257,9 @@ export const Shop = () => {
                 <span>{item.title}</span>
               </div>
             ))} */}
-          </div>
-          
-          <div className="filter-box">
+        {/* </div> */}
+
+        {/* <div className="filter-box">
             <h4>Price</h4>
             <div className="underline"></div>
             <div className="filter-item">
@@ -311,8 +302,8 @@ export const Shop = () => {
               />
               <span>₹36000 - ₹48000</span>
             </div>
-          </div>
-          <div className="filter-box">
+          </div> */}
+        {/* <div className="filter-box">
             <h4>Color</h4>
             <div className="underline"></div>
             {colors.map((clr) => (
@@ -326,12 +317,13 @@ export const Shop = () => {
                 <span>{clr}</span>
               </div>
             ))}
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
         <Offcanvas
           show={showFilters}
           onHide={() => setShowFilters(false)}
           placement={"end"}
+          
         >
           <div className="header-sm">
             <h2>Filter By</h2>
@@ -401,7 +393,7 @@ export const Shop = () => {
                     <span>{item.title}</span>
                   </div>
                 ))} */}
-                </div>
+              </div>
               <div className="filter-box">
                 <h4>Price</h4>
                 <div className="underline"></div>
@@ -466,16 +458,9 @@ export const Shop = () => {
         </Offcanvas>
         <div className="list-of-products" data-aos="fade-up">
           {/* {!allProductsIsLoading ? ( */}
-            {products.map((art) => {
-              if (filterRentItems) {
-                if (art.available_for_rent) {
-                  return <ProductItem item={art} key={art.id} />;
-                }
-                return null;
-              } else {
-                return <ProductItem item={art} key={art.id} />;
-              }
-            })}
+          {products.map((art) => {
+            return <ProductItem item={art} key={art.id} />;
+          })}
           {/* ) : (
             <div className="loading-cards">
               <div className="loading-card-item"></div>
