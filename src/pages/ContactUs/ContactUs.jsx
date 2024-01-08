@@ -2,7 +2,7 @@ import "./ContactUs.scss";
 import Img from "../../assets/images/contact-us-img.png";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { contact } from "../../utils/APIs";
+// import { contact } from "../../utils/APIs";
 import { useStateValue } from "../../StateProvider";
 
 export const ContactUs = () => {
@@ -25,13 +25,13 @@ export const ContactUs = () => {
   const onSubmit = async (values) => {
     dispatch({ type: "SET_LOADING", status: true });
     try {
-      const response = await contact(values);
-      if (response.data.status[0].Error === "False") {
-        toast.success("Form submitted successfully");
-        reset();
-      } else {
-        toast(response.data.status[0].ResponseMessage, { icon: "⚠️" });
-      }
+      // const response = await contact(values);
+      // if (response.data.status[0].Error === "False") {
+      //   toast.success("Form submitted successfully");
+      //   reset();
+      // } else {
+      //   toast(response.data.status[0].ResponseMessage, { icon: "⚠️" });
+      // }
     } catch (err) {
       toast.error(err.message);
     }

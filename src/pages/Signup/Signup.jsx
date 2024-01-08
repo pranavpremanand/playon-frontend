@@ -7,6 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import { useStateValue } from "../../StateProvider";
 import { useGoogleLogin } from "@react-oauth/google";
+import { signup } from "../../utils/userAPIs";
 
 export const Signup = () => {
   const {
@@ -15,6 +16,7 @@ export const Signup = () => {
     getValues,
     formState: { errors },
   } = useForm({
+    mode: "all",
     defaultValues: {
       name: "",
       email: "",
@@ -26,26 +28,27 @@ export const Signup = () => {
   const [, dispatch] = useStateValue();
 
   const handleFormSubmit = async (values) => {
-    // dispatch({ type: "SET_LOADING", status: true });
-    // values = { ...values, user_type: "normal" };
-    // try {
-    //   const response = await signup(values);
-    //   console.log(response);
-    //   if (response.data?.access_token) {
-    //     dispatch({ type: "SET_LOGIN_STATUS", status: true });
-    //     sessionStorage.setItem("token", response.data.access_token);
-    //     sessionStorage.setItem("refresh_token", response.data.refresh_token);
-    //     sessionStorage.setItem(
-    //       "user_details",
-    //       JSON.stringify(response.data.value)
-    //     );
-    //     toast.success(response.data?.status[0]?.Message);
-    //     navigate("/");
-    //   }
-    // } catch (err) {
-    //   toast.error("Something went wrong");
-    // }
-    // dispatch({ type: "SET_LOADING", status: false });
+    dispatch({ type: "SET_LOADING", status: true });
+    try {
+      const response = await signup(values);
+      console.log(response);
+      if (response.data?.accessToken) {
+        // dispatch({ type: "SET_LOGIN_STATUS", status: true });
+        sessionStorage.setItem("token", response.data.accessToken);
+        // sessionStorage.setItem("refresh_token", response.data.refresh_token);
+        sessionStorage.setItem(
+          "user_details",
+          JSON.stringify(response.data.data)
+        );
+        toast.success(response.data.message);
+      } else {
+        toast(response.data.message, { icon: "⚠️" });
+      }
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      dispatch({ type: "SET_LOADING", status: false });
+    }
   };
 
   const emailAvailability = () => {
@@ -151,7 +154,7 @@ export const Signup = () => {
                   required: "Password is required",
                   pattern: {
                     value:
-                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,16}$/i,
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{6,16}$/,
                     message:
                       "Password should be atleast 6 and maximum 16 characters and must contain uppercase, lowercase, numbers and special characters",
                   },

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Offcanvas } from "react-bootstrap";
 import { GrFormClose } from "react-icons/gr";
 import { useQuery } from "@tanstack/react-query";
-import { categoriesList, fetchAllProducts } from "../../utils/APIs";
+import { categoriesList, fetchAllProducts } from "../../utils/userAPIs";
 import { toast } from "react-hot-toast";
 import { useStateValue } from "../../StateProvider";
 import { products } from "../Home/Home";

@@ -14,7 +14,7 @@ const options = [
   { url: "/products", icon: VscJersey, title: "Products" },
   { url: "/categories", icon: LuClipboardList, title: "Categories" },
   { url: "/manage-orders", icon: BiSolidShoppingBags, title: "Manage Orders" },
-  { url: "/logout", icon: RiLogoutBoxRLine, title: "Logout" },
+  { icon: RiLogoutBoxRLine, title: "Logout" },
 ];
 
 export const AdminSidebar = ({ children }) => {
@@ -30,13 +30,21 @@ export const AdminSidebar = ({ children }) => {
     setPage(route);
   }, [pathname]);
 
+  // do logout
+  const doLogout = () => {
+    sessionStorage.clear();
+    localStorage.clear();
+    navigate("/admin/login");
+  };
   return (
     <div className="dashboard-container">
       <div className="options" data-aos="fade-right">
         {options.map((option, i) => (
           <div
             onClick={() => {
-              navigate(`/admin${option.url}`);
+              option.title === "Logout"
+                ? doLogout()
+                : navigate(`/admin${option.url}`);
             }}
             className={`option ${page === option.url && "active"}`}
             key={i}

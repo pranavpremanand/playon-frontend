@@ -1,3 +1,4 @@
+import { lazy } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import "./App.scss";
 import { Signup } from "./pages/Signup/Signup";
@@ -14,7 +15,12 @@ import { ForgotPassword } from "./pages/ForgotPassword/ForgotPassword";
 import { ContactUs } from "./pages/ContactUs/ContactUs";
 import { AboutUs } from "./pages/AboutUs/AboutUs";
 import { Toaster } from "react-hot-toast";
-import { ProtectRoute, PublicRoute } from "./ProtectRoutes";
+import {
+  AdminProtectRoute,
+  AdminPublicRoute,
+  ProtectRoute,
+  PublicRoute,
+} from "./ProtectRoutes";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useQuery } from "@tanstack/react-query";
@@ -24,11 +30,12 @@ import AdminLogin from "./pages/AdminPages/Login/AdminLogin";
 import { AdminNavbar } from "./components/AdminNavbar/AdminNavbar";
 import AdminDashboard from "./pages/AdminPages/Dashboard/AdminDashboard";
 import { AdminSidebar } from "./components/AdminSidebar/AdminSidebar";
-import Users from "./pages/AdminPages/Users/Users";
 import Products from "./pages/AdminPages/Products/Products";
 import Categories from "./pages/AdminPages/Categories/Categories";
 import ManageOrders from "./pages/AdminPages/ManageOrders/ManageOrders";
 import { Navbar } from "./components/Navbar/Navbar";
+import { Suspense } from "react";
+const Users = lazy(() => import("./pages/AdminPages/Users/Users"));
 
 export const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -48,12 +55,11 @@ function App() {
   });
 
   return (
-    <div
-    >
-      <GoogleOAuthProvider clientId={'googleClientId'}>
+    <Suspense fallback={<LoadingSpinner />}>
+      <GoogleOAuthProvider clientId={"googleClientId"}>
         <BrowserRouter>
           <Toaster position="top-center" reverseOrder={false} />
-          {isLoading && <LoadingSpinner />}
+          {/* {isLoading && <LoadingSpinner />} */}
           <ScrollToTop />
           <Routes>
             <Route
@@ -186,71 +192,71 @@ function App() {
             <Route
               path="/admin/login"
               element={
-                <>
+                <AdminPublicRoute>
                   <AdminNavbar />
                   <AdminLogin />
-                </>
+                </AdminPublicRoute>
               }
             />
             <Route
               path="/admin"
               element={
-                <>
+                <AdminProtectRoute>
                   <AdminNavbar />
                   <AdminSidebar>
                     <AdminDashboard />
                   </AdminSidebar>
-                </>
+                </AdminProtectRoute>
               }
             />
             <Route
               path="/admin/users"
               element={
-                <>
+                <AdminProtectRoute>
                   <AdminNavbar />
                   <AdminSidebar>
                     <Users />
                   </AdminSidebar>
-                </>
+                </AdminProtectRoute>
               }
             />
             <Route
               path="/admin/products"
               element={
-                <>
+                <AdminProtectRoute>
                   <AdminNavbar />
                   <AdminSidebar>
                     <Products />
                   </AdminSidebar>
-                </>
+                </AdminProtectRoute>
               }
             />
             <Route
               path="/admin/categories"
               element={
-                <>
+                <AdminProtectRoute>
                   <AdminNavbar />
                   <AdminSidebar>
                     <Categories />
                   </AdminSidebar>
-                </>
+                </AdminProtectRoute>
               }
             />
             <Route
               path="/admin/manage-orders"
               element={
-                <>
+                <AdminProtectRoute>
                   <AdminNavbar />
                   <AdminSidebar>
                     <ManageOrders />
                   </AdminSidebar>
-                </>
+                </AdminProtectRoute>
               }
             />
           </Routes>
         </BrowserRouter>
       </GoogleOAuthProvider>
-    </div>
+    </Suspense>
   );
 }
 

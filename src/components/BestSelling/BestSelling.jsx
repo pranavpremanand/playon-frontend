@@ -2,7 +2,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Slide } from "react-slideshow-image";
 import { ProductItem } from "../ProductItem/ProductItem";
 import "./BestSelling.scss";
-import { fetchPopularProducts } from "../../utils/APIs";
+// import { fetchPopularProducts } from "../../utils/APIs";
 import { useQuery } from "@tanstack/react-query";
 import { useStateValue } from "../../StateProvider";
 import { products, responsiveSettings } from "../../pages/Home/Home";
@@ -52,16 +52,6 @@ export const BestSelling = () => {
     },
   });
 
-  // get list of popular products
-  const { isLoading: popularProductsLoading, data: popularProducts } = useQuery(
-    ["popular-products"],
-    fetchPopularProducts,
-    {
-      onError: (err) => {
-        // handle err
-      },
-    }
-  );
 
   return (
     <section className="best-selling">

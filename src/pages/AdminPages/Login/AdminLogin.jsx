@@ -5,10 +5,16 @@ import { useForm } from "react-hook-form";
 import { useStateValue } from "../../../StateProvider";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
+import { adminLogin } from "../../../utils/adminAPIs";
 
 const AdminLogin = () => {
   const [rememberMe, setRememberMe] = useState(false);
-  const {register,handleSubmit,formState: { errors },} = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "all",
     defaultValues: {
       email: "",
       password: "",
@@ -19,16 +25,29 @@ const AdminLogin = () => {
   const [, dispatch] = useStateValue();
 
   const handleFormSubmit = async (values) => {
-
-  }
-
-    // set remember me option
-    const setRememberMeOption = (e) => {
-      if (e.target.checked) {
-        return setRememberMe(true);
+    dispatch({ type: "SET_LOADING", status: true });
+    try {
+      const response = await adminLogin(values);
+      if (response.data?.accessToken) {
+        sessionStorage.setItem('adminToken',response.data?.accessToken)
+        toast.success(response.data.message);
+      }else{
+        toast(response.data.message,{icon:'⚠️'})
       }
-      setRememberMe(false);
-    };
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      dispatch({ type: "SET_LOADING", status: false });
+    }
+  };
+
+  // set remember me option
+  const setRememberMeOption = (e) => {
+    if (e.target.checked) {
+      return setRememberMe(true);
+    }
+    setRememberMe(false);
+  };
   return (
     <div className="login-container">
       <div className="login-section" data-aos="fade-right">
@@ -62,7 +81,7 @@ const AdminLogin = () => {
                   required: "Password is required",
                   pattern: {
                     value:
-                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,16}$/i,
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{6,16}$/,
                     message:
                       "Password should be atleast 6 and maximum 16 characters and must contain uppercase, lowercase, numbers and special characters",
                   },
@@ -72,8 +91,11 @@ const AdminLogin = () => {
             </div>
             <div className="forgot-pw-box">
               <div className="remember-me">
-                <input type="checkbox" onChange={setRememberMeOption}
-                    checked={rememberMe}/>
+                <input
+                  type="checkbox"
+                  onChange={setRememberMeOption}
+                  checked={rememberMe}
+                />
                 <p>Remember me</p>
               </div>
               <span>Forgot Password?</span>
@@ -89,4 +111,4 @@ const AdminLogin = () => {
   );
 };
 
-export default AdminLogin
+export default AdminLogin;

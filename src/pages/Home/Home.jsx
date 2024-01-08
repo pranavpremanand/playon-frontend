@@ -8,7 +8,6 @@ import GridImg2 from "../../assets/images/grid2.jpeg";
 import { Accordion } from "./components/Accordion/Accordion";
 import { BestSelling } from "../../components/BestSelling/BestSelling";
 import { useQuery } from "@tanstack/react-query";
-import { fetchRecentProducts, getFavorites } from "../../utils/APIs";
 import { useStateValue } from "../../StateProvider";
 import { useState } from "react";
 import pdt1 from "../../assets/products/argentina.webp";
@@ -97,17 +96,6 @@ export const Home = () => {
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
 
-  // get list of recent products
-  const { isLoading: recentProductsLoading, data: recentProducts } = useQuery(
-    ["recent-products"],
-    fetchRecentProducts,
-    {
-      onError: (err) => {
-        // handle err
-        console.log(err);
-      },
-    }
-  );
 
   const animation = { duration: 5000, easing: (t) => t };
 

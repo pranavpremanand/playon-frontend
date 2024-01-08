@@ -79,188 +79,188 @@ export const Dashboard = () => {
 
   // update user details
   const handleFormUpdate = async (values) => {
-    try {
-      const response = await updateUser(values);
-      if (response.data?.status[0].Message === "success") {
-        queryClient.invalidateQueries("user-data");
-        toast.success(response.data?.status[0].ResponseMessage);
-        setEnableEdit(false);
-      } else {
-        toast(response.data?.status[0].ResponseMessage, { icon: "⚠️" });
-      }
-    } catch (err) {
-      toast.error(err.message);
-      console.log(err, "error");
-    }
+    // try {
+    //   const response = await updateUser(values);
+    //   if (response.data?.status[0].Message === "success") {
+    //     queryClient.invalidateQueries("user-data");
+    //     toast.success(response.data?.status[0].ResponseMessage);
+    //     setEnableEdit(false);
+    //   } else {
+    //     toast(response.data?.status[0].ResponseMessage, { icon: "⚠️" });
+    //   }
+    // } catch (err) {
+    //   toast.error(err.message);
+    //   console.log(err, "error");
+    // }
   };
 
   // Selecting profile image
   const onImageSelect = async (e) => {
-    const fData = new FormData();
-    fData.append("profile_img", e.target.files[0]);
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      if (
-        file.type === "image/x-png" ||
-        file.type === "image/png" ||
-        file.type === "image/jpeg" ||
-        file.type === "image/jpg"
-      ) {
-        try {
-          const response = await updateProfileImg(fData);
-          if (response.data?.status[0].Error === "False") {
-            setProfilePic({ url: URL.createObjectURL(file) });
-            queryClient.invalidateQueries("user-data");
-            toast.success(response.data?.status[0].Message);
-          } else {
-            toast(response.data?.status[0].ResponseMessage, { icon: "⚠️" });
-          }
-        } catch (err) {
-          toast.error(err.message);
-        }
-      } else {
-        return toast("Select an image file", {
-          icon: "❌",
-          position: "top-center",
-          style: {
-            borderRadius: "10px",
-          },
-        });
-      }
-    }
+    // const fData = new FormData();
+    // fData.append("profile_img", e.target.files[0]);
+    // if (e.target.files && e.target.files[0]) {
+    //   const file = e.target.files[0];
+    //   if (
+    //     file.type === "image/x-png" ||
+    //     file.type === "image/png" ||
+    //     file.type === "image/jpeg" ||
+    //     file.type === "image/jpg"
+    //   ) {
+    //     try {
+    //       const response = await updateProfileImg(fData);
+    //       if (response.data?.status[0].Error === "False") {
+    //         setProfilePic({ url: URL.createObjectURL(file) });
+    //         queryClient.invalidateQueries("user-data");
+    //         toast.success(response.data?.status[0].Message);
+    //       } else {
+    //         toast(response.data?.status[0].ResponseMessage, { icon: "⚠️" });
+    //       }
+    //     } catch (err) {
+    //       toast.error(err.message);
+    //     }
+    //   } else {
+    //     return toast("Select an image file", {
+    //       icon: "❌",
+    //       position: "top-center",
+    //       style: {
+    //         borderRadius: "10px",
+    //       },
+    //     });
+    //   }
+    // }
   };
 
   // get user addresses
-  const { isLoading: addressesIsLoading } = useQuery(
-    ["addresses"],
-    getAddresses,
-    {
-      onSuccess: (data) => {
-        if (data.data?.value) {
-          dispatch({ type: "SET_USER_ADDRESSES", addresses: data.data.value });
-          sessionStorage.setItem("addresses", JSON.stringify(data.data.value));
-        }
-      },
-      onError: (err) => console.log(err),
-    }
-  );
+  // const { isLoading: addressesIsLoading } = useQuery(
+  //   ["addresses"],
+  //   getAddresses,
+  //   {
+  //     onSuccess: (data) => {
+  //       if (data.data?.value) {
+  //         dispatch({ type: "SET_USER_ADDRESSES", addresses: data.data.value });
+  //         sessionStorage.setItem("addresses", JSON.stringify(data.data.value));
+  //       }
+  //     },
+  //     onError: (err) => console.log(err),
+  //   }
+  // );
 
   // get all orders
-  const { isLoading: ordersLoading } = useQuery(["all-orders"], getOrders, {
-    onSuccess: (data) => {
-      if (data.data?.status[0].Error === "False") {
-        setOrders(
-          data.data.value.sort((order1, order2) => order2.id - order1.id)
-        );
-      }
-    },
-    onError: (err) => console.log(err, "orders error response"),
-  });
+  // const { isLoading: ordersLoading } = useQuery(["all-orders"], getOrders, {
+  //   onSuccess: (data) => {
+  //     if (data.data?.status[0].Error === "False") {
+  //       setOrders(
+  //         data.data.value.sort((order1, order2) => order2.id - order1.id)
+  //       );
+  //     }
+  //   },
+  //   onError: (err) => console.log(err, "orders error response"),
+  // });
 
   // cancel order mutation function
-  const cancelMutation = useMutation(cancelOrder, {
-    onSuccess: (data) => {
-      if (data.data?.status[0].Error === "False") {
-        setShowCancelConfirm(false);
-        queryClient.invalidateQueries(["all-orders"]);
-        toast.success("Order cancellation successful");
-        setCancellingReason("");
-        setCancellingOrderId("");
-      }
-    },
-    onError: (err) => console.log(err, "error"),
-  });
+  // const cancelMutation = useMutation(cancelOrder, {
+  //   onSuccess: (data) => {
+  //     if (data.data?.status[0].Error === "False") {
+  //       setShowCancelConfirm(false);
+  //       queryClient.invalidateQueries(["all-orders"]);
+  //       toast.success("Order cancellation successful");
+  //       setCancellingReason("");
+  //       setCancellingOrderId("");
+  //     }
+  //   },
+  //   onError: (err) => console.log(err, "error"),
+  // });
 
   // cancel order
-  const doCancelOrderConfirm = () => {
-    if (!cancellingReason) {
-      return toast("Select reason to cancel order", { icon: "⚠️" });
-    }
-    cancelMutation.mutate({
-      reason: cancellingReason,
-      orderId: cancellingOrderId.toString(),
-    });
-  };
+  // const doCancelOrderConfirm = () => {
+  //   if (!cancellingReason) {
+  //     return toast("Select reason to cancel order", { icon: "⚠️" });
+  //   }
+  //   cancelMutation.mutate({
+  //     reason: cancellingReason,
+  //     orderId: cancellingOrderId.toString(),
+  //   });
+  // };
 
   // return order mutation function
-  const returnMutation = useMutation(returnOrder, {
-    onSuccess: (data) => {
-      if (data.data?.status[0].Error === "False") {
-        setShowReturnConfirm(false);
-        queryClient.invalidateQueries(["all-orders"]);
-        toast.success("Order returned successfully");
-        setReturningReason("");
-        setReturningOrderId("");
-      }
-    },
-    onError: (err) => console.log(err, "error"),
-  });
+  // const returnMutation = useMutation(returnOrder, {
+  //   onSuccess: (data) => {
+  //     if (data.data?.status[0].Error === "False") {
+  //       setShowReturnConfirm(false);
+  //       queryClient.invalidateQueries(["all-orders"]);
+  //       toast.success("Order returned successfully");
+  //       setReturningReason("");
+  //       setReturningOrderId("");
+  //     }
+  //   },
+  //   onError: (err) => console.log(err, "error"),
+  // });
 
   // do return order
   const doReturnOrderConfirm = () => {
-    if (!returningReason) {
-      return toast("Select reason to return products", { icon: "⚠️" });
-    }
-    returnMutation.mutate({
-      reason: returningReason,
-      orderId: returningOrderId.toString(),
-    });
+    // if (!returningReason) {
+    //   return toast("Select reason to return products", { icon: "⚠️" });
+    // }
+    // returnMutation.mutate({
+    //   reason: returningReason,
+    //   orderId: returningOrderId.toString(),
+    // });
   };
 
   // get notification details
-  useQuery(["notification-details"], getNotificationDetails, {
-    onSuccess: (response) => {
-      if (response.data?.status[0].Message === "success") {
-        console.log("NOTIFICATIONS", response.data);
-        setEmailNotificationStatus(response.data.user.email_notification);
-        setChatNotificationStatus(response.data.user.chat_notification);
-      }
-    },
-    onError: (err) => {
-      // handle error
-    },
-  });
+  // useQuery(["notification-details"], getNotificationDetails, {
+  //   onSuccess: (response) => {
+  //     if (response.data?.status[0].Message === "success") {
+  //       console.log("NOTIFICATIONS", response.data);
+  //       setEmailNotificationStatus(response.data.user.email_notification);
+  //       setChatNotificationStatus(response.data.user.chat_notification);
+  //     }
+  //   },
+  //   onError: (err) => {
+  //     // handle error
+  //   },
+  // });
 
   // change email notification status
   const changeEmailNotificationStatus = async () => {
-    try {
-      const data = {
-        email_notification: !emailNotificationStatus,
-        chat_notification: chatNotificationStatus,
-      };
-      setEmailNotificationStatus(!emailNotificationStatus);
-      const response = await changeNotificationStatus(data);
-      if (response.data?.status[0].Message === "success") {
-        if (emailNotificationStatus) {
-          toast.success("Email notifications turned off");
-        } else {
-          toast.success("Email notifications turned on");
-        }
-      }
-    } catch (err) {
-      toast.error(err.message);
-    }
+    // try {
+    //   const data = {
+    //     email_notification: !emailNotificationStatus,
+    //     chat_notification: chatNotificationStatus,
+    //   };
+    //   setEmailNotificationStatus(!emailNotificationStatus);
+    //   const response = await changeNotificationStatus(data);
+    //   if (response.data?.status[0].Message === "success") {
+    //     if (emailNotificationStatus) {
+    //       toast.success("Email notifications turned off");
+    //     } else {
+    //       toast.success("Email notifications turned on");
+    //     }
+    //   }
+    // } catch (err) {
+    //   toast.error(err.message);
+    // }
   };
 
   // change chat notification status
   const changeChatNotificationStatus = async () => {
-    try {
-      const data = {
-        email_notification: emailNotificationStatus,
-        chat_notification: !chatNotificationStatus,
-      };
-      setChatNotificationStatus(!chatNotificationStatus);
-      const response = await changeNotificationStatus(data);
-      if (response.data?.status[0].Message === "success") {
-        if (chatNotificationStatus) {
-          toast.success("Chat notifications turned off");
-        } else {
-          toast.success("Chat notifications turned on");
-        }
-      }
-    } catch (err) {
-      toast.error(err.message);
-    }
+    // try {
+    //   const data = {
+    //     email_notification: emailNotificationStatus,
+    //     chat_notification: !chatNotificationStatus,
+    //   };
+    //   setChatNotificationStatus(!chatNotificationStatus);
+    //   const response = await changeNotificationStatus(data);
+    //   if (response.data?.status[0].Message === "success") {
+    //     if (chatNotificationStatus) {
+    //       toast.success("Chat notifications turned off");
+    //     } else {
+    //       toast.success("Chat notifications turned on");
+    //     }
+    //   }
+    // } catch (err) {
+    //   toast.error(err.message);
+    // }
   };
 
   // enable edit option
@@ -367,7 +367,9 @@ export const Dashboard = () => {
                     key={order.id}
                   />
                 ))
-              : !ordersLoading && (
+              : 
+              // !ordersLoading && 
+              (
                   <div className="empty-orders">
                     <h3 className="h3">You haven't ordered anything yet!</h3>
                     <button
@@ -386,7 +388,7 @@ export const Dashboard = () => {
               <img
                 src={
                   profilePic?.url || user.profile_image
-                    ? `${domainName}${user?.profile_image}`
+                    ? `${user?.profile_image}`
                     : "https://img.freepik.com/free-icon/user_318-159711.jpg"
                 }
                 alt="profile"
@@ -484,7 +486,9 @@ export const Dashboard = () => {
           </div>
         )}
         {page === "shipping" && (
-          <Shipping addresses={userAddresses} isLoading={addressesIsLoading} />
+          <Shipping addresses={userAddresses} 
+          // isLoading={addressesIsLoading}
+           />
         )}
         {page === "settings" && (
           <div className="settings">
@@ -549,7 +553,7 @@ export const Dashboard = () => {
         show={showCancelConfirm}
         onHide={() => setShowCancelConfirm(false)}
         setcancellingreason={setCancellingReason}
-        docancelorderconfirm={doCancelOrderConfirm}
+        docancelorderconfirm={true}
         setcancellingorderId={setCancellingOrderId}
       />
       <ConfirmReturnOrderModal

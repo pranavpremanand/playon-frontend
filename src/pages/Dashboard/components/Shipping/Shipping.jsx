@@ -5,7 +5,6 @@ import { Address } from "../Address/Address";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addAddress } from "../../../../utils/APIs";
 import { toast } from "react-hot-toast";
 
 export const Shipping = ({
@@ -38,28 +37,7 @@ export const Shipping = ({
     },
   });
 
-  const addAddressMutation = useMutation(addAddress, {
-    onSuccess: (data) => {
-      if (data.data?.status[0]?.Error === "False") {
-        toast.success("Added address");
-        console.log("add address response", data.data);
-        queryClient.invalidateQueries(["addresses"]);
-        setOpenAdd(false);
-        reset();
-        setCity("");
-        setState("");
-        setPincode("");
-      }
-    },
-    onError: (err) => {
-      console.log(err, "error");
-      if (err.message) {
-        toast.error(err.message);
-      } else {
-        toast.error("Something went wrong");
-      }
-    },
-  });
+  
 
   // add address
   const handleFormSubmit = (values) => {
@@ -76,7 +54,6 @@ export const Shipping = ({
       }
     } else {
       values = { ...values, city: city, state: state, pin_code: pincode };
-      addAddressMutation.mutate(values);
     }
   };
 
