@@ -5,5 +5,7 @@ export const apis = {
   signup:'/api/user/signup',
   login:'/api/user/login',
   getUsers:'/api/admin/get-users',
-  blockOrUnblockUser:'/api/admin/change-user-status'
+  blockOrUnblockUser:'/api/admin/change-user-status',
+  addCategory:'/api/admin/add-category',
+  categories:'/api/admin/categories',
 };

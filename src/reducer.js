@@ -4,6 +4,7 @@ export const initialState = {
       ? true
       : false,
   users: [],
+  categories: [],
   isLoading: false,
 };
 
@@ -33,6 +34,9 @@ function reducer(state, action) {
         ...state,
         users: updatedList,
       };
+
+    case "SET_CATEGORIES":
+      return { ...state, categories: action.data };
 
     default:
       return state;

@@ -20,3 +20,17 @@ export const changeUserStatus = (data) => {
     data,
   });
 };
+
+// add category
+export const createCategory = (data) => {
+  return adminRequest({
+    url: `${baseUrl}${apis.addCategory}`,
+    method: "post",
+    data,
+  });
+};
+
+// get categories
+export const getCategories = () => {
+  return axios.get(`${baseUrl}${apis.categories}`);
+};

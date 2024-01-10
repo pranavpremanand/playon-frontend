@@ -72,13 +72,21 @@ const TableItem = ({ user, no }) => {
       toast.error(err.message);
     }
   };
+
   return (
     <tr>
       <td data-label="No.">{no}</td>
       <td data-label="Name">{user.name}</td>
       <td data-label="Email">{user.email}</td>
       <td data-label="Account created on">
-        {new Date(user.createdAt).toLocaleString()}
+        {new Date(user.createdAt).toLocaleString("en-US", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        })}
       </td>
       <td data-label="Status">
         <ConfirmToast
