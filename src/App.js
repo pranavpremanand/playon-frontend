@@ -34,8 +34,7 @@ import Products from "./pages/AdminPages/Products/Products";
 import Categories from "./pages/AdminPages/Categories/Categories";
 import ManageOrders from "./pages/AdminPages/ManageOrders/ManageOrders";
 import { Navbar } from "./components/Navbar/Navbar";
-import { Suspense } from "react";
-const Users = lazy(() => import("./pages/AdminPages/Users/Users"));
+import { Users } from "./pages/AdminPages/Users/Users";
 
 export const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -55,11 +54,11 @@ function App() {
   });
 
   return (
-    <Suspense fallback={<LoadingSpinner />}>
+    <>
       <GoogleOAuthProvider clientId={"googleClientId"}>
         <BrowserRouter>
           <Toaster position="top-center" reverseOrder={false} />
-          {/* {isLoading && <LoadingSpinner />} */}
+          {isLoading && <LoadingSpinner />}
           <ScrollToTop />
           <Routes>
             <Route
@@ -256,7 +255,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </GoogleOAuthProvider>
-    </Suspense>
+    </>
   );
 }
 
