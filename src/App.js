@@ -34,7 +34,7 @@ import Products from "./pages/AdminPages/Products/Products";
 import Categories from "./pages/AdminPages/Categories/Categories";
 import ManageOrders from "./pages/AdminPages/ManageOrders/ManageOrders";
 import { Navbar } from "./components/Navbar/Navbar";
-import { Users } from "./pages/AdminPages/Users/Users";
+import Users from "./pages/AdminPages/Users/Users";
 
 export const ScrollToTop = () => {
   const { pathname } = useLocation();
