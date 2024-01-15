@@ -38,6 +38,13 @@ function reducer(state, action) {
     case "SET_CATEGORIES":
       return { ...state, categories: action.data };
 
+    case "DELETE_CATEGORY":
+      const updatedCategoryList = state.categories.filter(
+        (category) => category._id !== action.categoryId
+      );
+      return { ...state, categories: updatedCategoryList };
+
+    
     default:
       return state;
   }

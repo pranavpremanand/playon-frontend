@@ -8,4 +8,5 @@ export const apis = {
   blockOrUnblockUser:'/api/admin/change-user-status',
   addCategory:'/api/admin/add-category',
   categories:'/api/admin/categories',
+  deleteCategory:'/api/admin/delete-category/'
 };

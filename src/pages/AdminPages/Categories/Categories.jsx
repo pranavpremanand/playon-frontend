@@ -3,9 +3,14 @@ import "./Categories.scss";
 import Table from "react-bootstrap/Table";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { createCategory, getCategories } from "../../../utils/adminAPIs";
+import {
+  createCategory,
+  deleteCategory,
+  getCategories,
+} from "../../../utils/adminAPIs";
 import { useQuery } from "@tanstack/react-query";
 import { useStateValue } from "../../../StateProvider";
+import { ConfirmToast } from "react-confirm-toast";
 
 const Categories = () => {
   const [showAddBtn, setShowAddBtn] = useState(false);
@@ -23,8 +28,6 @@ const Categories = () => {
     dispatch({ type: "SET_CATEGORIES", data: response?.data.data });
   }, [response, dispatch]);
 
-  console.log(response, "hello");
-
   // create category
   const addCategory = async (values) => {
     try {
@@ -39,7 +42,6 @@ const Categories = () => {
         toast(response.data.message, { icon: "⚠️" });
       }
     } catch (err) {
-      console.log(err);
       toast.error(err.message);
     }
   };
@@ -75,7 +77,7 @@ const Categories = () => {
                     },
                   })}
                 />
-                <small className="error">{errors.categoryName?.message}</small>
+                <small className="error">{errors.name?.message}</small>
               </div>
               <div className="buttons">
                 <button className="btn-primary" type="submit">
@@ -107,7 +109,12 @@ const Categories = () => {
           <tbody>
             {categories &&
               categories.map((category, i) => (
-                <TableItem no={i + 1} data={category} key={category._id} />
+                <TableItem
+                  no={i + 1}
+                  data={category}
+                  key={category._id}
+                  hideAddOption={() => setShowAddBtn(false)}
+                />
               ))}
           </tbody>
         </Table>
@@ -118,16 +125,48 @@ const Categories = () => {
 
 export default Categories;
 
-const TableItem = ({ no, data }) => {
+const TableItem = ({ no, data, hideAddOption }) => {
   const [editName, setEditName] = useState(false);
+  const [, dispatch] = useStateValue();
+
+  const handleEditClick = () => {
+    setEditName(!editName);
+    hideAddOption();
+  };
+
+  // delete category
+  const removeCategory = async () => {
+    try {
+      const response = await deleteCategory(data._id);
+      if (response.data.success) {
+        dispatch({ type: "DELETE_CATEGORY", categoryId: data._id });
+        toast.success(response.data.message);
+      } else {
+        toast(response.data.message, { icon: "⚠️" });
+      }
+    } catch (err) {
+      toast.error(err.message)
+    }
+  };
   return (
     <tr>
       <td>{no}</td>
       <td>{!editName ? data.name : <input defaultValue={data.name} />}</td>
-      <td className="edit" onClick={() => setEditName(!editName)}>
+      <td className="edit" onClick={handleEditClick}>
         {!editName ? "Edit" : "Cancel"}
       </td>
-      <td className="dlt">Delete</td>
+      <ConfirmToast
+        asModal={true}
+        customCancel={"Cancel"}
+        customConfirm={"Confirm"}
+        customFunction={removeCategory}
+        message={`Are you sure to delete this category`}
+        position={"top-left"}
+        showCloseIcon={false}
+        theme={"snow"}
+      >
+        <td className="dlt">Delete</td>
+      </ConfirmToast>
     </tr>
   );
 };

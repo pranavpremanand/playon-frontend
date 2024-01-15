@@ -34,3 +34,11 @@ export const createCategory = (data) => {
 export const getCategories = () => {
   return axios.get(`${baseUrl}${apis.categories}`);
 };
+
+// delete category
+export const deleteCategory = (id) => {
+  return adminRequest({
+    url: `${baseUrl}${apis.deleteCategory}${id}`,
+    method: "delete",
+  });
+};
