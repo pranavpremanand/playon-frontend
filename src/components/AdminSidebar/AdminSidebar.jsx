@@ -55,6 +55,21 @@ export const AdminSidebar = ({ children }) => {
         ))}
       </div>
       <div className="right-side">{children}</div>
+      <div className="sm-view">
+        {options.map((option, i) => (
+          <div
+            onClick={() => {
+              option.title === "Logout"
+                ? doLogout()
+                : navigate(`/admin${option.url}`);
+            }}
+            className={`option ${page === option.url && "active"}`}
+            key={i}
+          >
+            {option.icon && <option.icon className="icon" />}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

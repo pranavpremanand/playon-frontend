@@ -42,3 +42,25 @@ export const deleteCategory = (id) => {
     method: "delete",
   });
 };
+
+// add product
+export const createProduct = (data) => {
+  return adminRequest({
+    url: `${baseUrl}${apis.addProduct}`,
+    method: "post",
+    data,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+// get admin products page data
+export const getProductsData = () => {
+  return adminRequest({ url: `${baseUrl}${apis.getProducts}` });
+};
+
+// get product by id
+export const getProductDetails = (id) => {
+  return axios.get(`${baseUrl}${apis.getProductById}/${id}`);
+};

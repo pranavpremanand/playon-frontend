@@ -35,6 +35,7 @@ const AdminLogin = () => {
         toast(response.data.message,{icon:'⚠️'})
       }
     } catch (err) {
+      console.log(err);
       toast.error(err.message);
     } finally {
       dispatch({ type: "SET_LOADING", status: false });

@@ -1,45 +1,53 @@
-import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import "./Users.scss";
 import { changeUserStatus, getUsers } from "../../../utils/adminAPIs";
 import { toast } from "react-hot-toast";
 import { useStateValue } from "../../../StateProvider";
 import { ConfirmToast } from "react-confirm-toast";
+import CustomLoader from "../../../components/CustomLoader/CustomLoader";
 
 const Users = () => {
   const [{ users }, dispatch] = useStateValue();
 
   // get all users data
-  const { data: response } = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ["users"],
-    queryFn: getUsers,
+    queryFn: async () => {
+      const response = await getUsers();
+      if (response.data.success) {
+        dispatch({ type: "SET_USERS", data: response.data.data });
+        return response.data;
+      }
+    },
   });
-
-  useEffect(() => {
-    dispatch({ type: "SET_USERS", data: response?.data.data });
-  }, [response, dispatch]);
 
   return (
     <div className="users-container">
       <div className="table-container">
         <h4>Users</h4>
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">No.</th>
-              <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Created At</th>
-              <th scope="col">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users &&
-              users.map((user, i) => (
-                <TableItem user={user} key={user._id} no={i + 1} />
-              ))}
-          </tbody>
-        </table>
+        {isLoading ? (
+          <div className="h-40vh">
+            <CustomLoader />
+          </div>
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">No.</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Created At</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users &&
+                users.map((user, i) => (
+                  <TableItem user={user} key={user._id} no={i + 1} />
+                ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );

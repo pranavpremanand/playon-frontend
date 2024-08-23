@@ -1,5 +1,5 @@
-// export const baseUrl = "http://localhost:5000";
-export const baseUrl = process.env.REACT_APP_BACKEND_URL;
+export const baseUrl = "http://localhost:5000";
+// export const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
 export const apis = {
   adminLogin: "/api/admin/login",
@@ -9,5 +9,8 @@ export const apis = {
   blockOrUnblockUser:'/api/admin/change-user-status',
   addCategory:'/api/admin/add-category',
   categories:'/api/admin/categories',
-  deleteCategory:'/api/admin/delete-category/'
+  deleteCategory:'/api/admin/delete-category/',
+  addProduct:'/api/admin/add-product',
+  getProducts:'/api/admin/products',
+  getProductById:'/api/admin/product',
 };

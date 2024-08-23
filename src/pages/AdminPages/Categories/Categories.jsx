@@ -11,6 +11,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { useStateValue } from "../../../StateProvider";
 import { ConfirmToast } from "react-confirm-toast";
+import CustomLoader from "../../../components/CustomLoader/CustomLoader";
 
 const Categories = () => {
   const [showAddBtn, setShowAddBtn] = useState(false);
@@ -19,14 +20,17 @@ const Categories = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({ mode: "all", defaultValues: { name: "" } });
 
   // get all categories
-  const { data: response } = useQuery(["categories"], getCategories);
-
-  useEffect(() => {
-    dispatch({ type: "SET_CATEGORIES", data: response?.data.data });
-  }, [response, dispatch]);
+  const { isLoading } = useQuery(["categories"], async () => {
+    const response = await getCategories();
+    if (response.data.success) {
+      dispatch({ type: "SET_CATEGORIES", data: response.data.data });
+      return response.data;
+    }
+  });
 
   // create category
   const addCategory = async (values) => {
@@ -34,6 +38,7 @@ const Categories = () => {
       const response = await createCategory(values);
       if (response.data.success) {
         toast.success(response.data.message);
+        reset();
         dispatch({
           type: "SET_CATEGORIES",
           data: [response.data.data, ...categories],
@@ -86,7 +91,10 @@ const Categories = () => {
                 <button
                   className="btn-secondary"
                   type="button"
-                  onClick={() => setShowAddBtn(false)}
+                  onClick={() => {
+                    setShowAddBtn(false);
+                    reset();
+                  }}
                 >
                   Cancel
                 </button>
@@ -97,27 +105,33 @@ const Categories = () => {
       </div>
 
       <div className="table-container">
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>No.</th>
-              <th>Category Name</th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {categories &&
-              categories.map((category, i) => (
-                <TableItem
-                  no={i + 1}
-                  data={category}
-                  key={category._id}
-                  hideAddOption={() => setShowAddBtn(false)}
-                />
-              ))}
-          </tbody>
-        </Table>
+        {isLoading ? (
+          <div className="40-vh">
+            <CustomLoader />
+          </div>
+        ) : (
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Category Name</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {categories &&
+                categories.map((category, i) => (
+                  <TableItem
+                    no={i + 1}
+                    data={category}
+                    key={category._id}
+                    hideAddOption={() => setShowAddBtn(false)}
+                  />
+                ))}
+            </tbody>
+          </Table>
+        )}
       </div>
     </div>
   );
@@ -145,13 +159,19 @@ const TableItem = ({ no, data, hideAddOption }) => {
         toast(response.data.message, { icon: "⚠️" });
       }
     } catch (err) {
-      toast.error(err.message)
+      toast.error(err.message);
     }
   };
   return (
     <tr>
       <td>{no}</td>
-      <td>{!editName ? data.name : <input defaultValue={data.name} />}</td>
+      <td>
+        {!editName ? (
+          data.name
+        ) : (
+          <input className="bg-white" defaultValue={data.name} />
+        )}
+      </td>
       <td className="edit" onClick={handleEditClick}>
         {!editName ? "Edit" : "Cancel"}
       </td>

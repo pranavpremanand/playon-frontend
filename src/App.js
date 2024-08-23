@@ -35,6 +35,7 @@ import Categories from "./pages/AdminPages/Categories/Categories";
 import ManageOrders from "./pages/AdminPages/ManageOrders/ManageOrders";
 import { Navbar } from "./components/Navbar/Navbar";
 import Users from "./pages/AdminPages/Users/Users";
+import ProductInDetail from "./pages/AdminPages/ProductInDetail/ProductInDetail";
 
 export const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -226,6 +227,17 @@ function App() {
                   <AdminNavbar />
                   <AdminSidebar>
                     <Products />
+                  </AdminSidebar>
+                </AdminProtectRoute>
+              }
+            />
+            <Route
+              path="/admin/product/:productId"
+              element={
+                <AdminProtectRoute>
+                  <AdminNavbar />
+                  <AdminSidebar>
+                    <ProductInDetail />
                   </AdminSidebar>
                 </AdminProtectRoute>
               }
