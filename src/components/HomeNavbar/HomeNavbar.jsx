@@ -8,7 +8,7 @@ import { GrFormClose } from "react-icons/gr";
 const menuOptions = [
   { title: "shop", url: "/shop" },
   { title: "about us", url: "/about-us" },
-  { title: "contact us", url: "/contact-us" },
+  { title: "contact us", url: "#" },
   { title: "login", url: "/login" },
 ];
 
