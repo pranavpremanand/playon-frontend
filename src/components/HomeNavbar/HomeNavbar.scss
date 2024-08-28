@@ -72,13 +72,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
     .logo-img {
       width: 5rem;
       height: 5rem;
       object-fit: contain;
     }
     .icon {
-      font-size: 2rem;
+      font-size: 3rem;
       cursor: pointer;
     }
   }
