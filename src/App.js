@@ -22,7 +22,7 @@ import {
   PublicRoute,
 } from "./ProtectRoutes";
 import AOS from "aos";
-import "aos/dist/aos.css";
+// import "aos/dist/aos.css";
 import { useQuery } from "@tanstack/react-query";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { LoadingSpinner } from "./components/LoadingSpinner";
@@ -47,12 +47,12 @@ export const ScrollToTop = () => {
 
 function App() {
   const [{ showProfileOptions, isLoading }, dispatch] = useStateValue();
-  AOS.init({
-    once: true,
-    delay: 150,
-    duration: 1000,
-    // offset:220
-  });
+  // AOS.init({
+  //   once: true,
+  //   delay: 150,
+  //   duration: 1000,
+  //   // offset:220
+  // });
 
   return (
     <>
