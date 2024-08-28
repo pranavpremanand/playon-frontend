@@ -69,7 +69,7 @@ const Products = () => {
     setFiles([]);
     setSelectedImages([]);
     const images = Array.from(e.target.files);
-    if (images.length === 3) {
+    // if (images.length === 0) {
       setFiles(e.target.files);
       images.forEach((file) => {
         if (
@@ -84,14 +84,14 @@ const Products = () => {
           return toast("Select image files");
         }
       });
-    } else {
-      toast.error("Select 3 images");
-    }
+    // } else {
+    //   toast.error("Select a images");
+    // }
   };
 
   // handle form submit
   const handleFormSubmit = async (values) => {
-    if (selectedImages.length === 3) {
+    if (selectedImages.length > 0 && selectedImages.length < 4) {
       const formData = new FormData();
       for (let i = 0; i < files.length; i++) {
         formData.append("images", files[i]);
@@ -110,7 +110,7 @@ const Products = () => {
           setFiles([]);
           toast.success(res.data.message);
           reset();
-        }else{
+        } else {
           toast.error(res.data.message);
         }
       } catch (err) {
@@ -122,7 +122,7 @@ const Products = () => {
   // check if images exist
   const checkImagesExist = () => {
     if (selectedImages.length === 0) {
-      setImgError("Please select 3 images");
+      setImgError("Please select images");
     }
   };
 
@@ -289,7 +289,7 @@ const Products = () => {
                   />
                   {imgError && <small className="error">{imgError}</small>}
                 </div>
-                {selectedImages.length === 3 && (
+                {selectedImages.length > 0 && (
                   <div className="selected-imgs">
                     {selectedImages.map((img) => (
                       <img src={img} alt="" key={img} />
@@ -318,12 +318,14 @@ const Products = () => {
         )}
       </div>
 
-      <div className="products-container">
-        {products.length > 0 &&
-          products.map((product) => (
+      {products.length > 0 && (
+        <div className="products-container">
+          <h4>Products</h4>
+          {products.map((product) => (
             <ProductItem key={product._id} product={product} />
           ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -332,9 +334,11 @@ export default Products;
 
 const ProductItem = ({ product }) => {
   const [editName, setEditName] = useState(false);
-  console.log(product);
   return (
-    <Link to={`/admin/product/${product._id}`} className="product-item underline-none">
+    <Link
+      to={`/admin/product/${product._id}`}
+      className="product-item underline-none"
+    >
       <div>
         <img src={`${baseUrl}/${product.images[0]}`} alt="" />
         <div className="product-item-details">

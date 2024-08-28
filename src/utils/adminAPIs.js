@@ -9,7 +9,10 @@ export const adminLogin = (data) => {
 
 // get all users data
 export const getUsers = () => {
-  return axios.get(`${baseUrl}${apis.getUsers}`);
+  return adminRequest({
+    url: `${baseUrl}${apis.getUsers}`,
+    method: "get",
+  })
 };
 
 // block or unblock user
@@ -64,3 +67,15 @@ export const getProductsData = () => {
 export const getProductDetails = (id) => {
   return axios.get(`${baseUrl}${apis.getProductById}/${id}`);
 };
+
+// update product
+export const updateProduct = (data) => {
+  return adminRequest({
+    url: `${baseUrl}${apis.updateProduct}`,
+    method: "patch",
+    data,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+}

@@ -20,6 +20,7 @@ import { ProductItem } from "../../components/ProductItem/ProductItem";
 import { ImQuotesRight, ImQuotesLeft } from "react-icons/im";
 import { useKeenSlider } from "keen-slider/react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { Link } from "react-router-dom";
 
 const qaContent = [
   "What can I sell?",
@@ -99,66 +100,44 @@ export const Home = () => {
 
   const animation = { duration: 5000, easing: (t) => t };
 
-  const [sliderRef] = useKeenSlider(
-    {
-      breakpoints: {
-        "(min-width: 300px)": {
-          slides: { perView: 2, spacing: 5 },
-        },
-        "(min-width: 500px)": {
-          slides: { perView: 2.5, spacing: 5 },
-        },
-        "(min-width: 650px)": {
-          slides: { perView: 3, spacing: 5 },
-        },
-        "(min-width: 760px)": {
-          slides: { perView: 3.5, spacing: 5 },
-        },
-        "(min-width: 850px)": {
-          slides: { perView: 4, spacing: 5 },
-        },
-        "(min-width: 1060px)": {
-          slides: { perView: 5, spacing: 10 },
-        },
-        "(min-width: 1300px)": {
-          slides: { perView: 6, spacing: 10 },
-        },
+  const [sliderRef] = useKeenSlider({
+    breakpoints: {
+      "(min-width: 300px)": {
+        slides: { perView: 2, spacing: 5 },
       },
-      slides: { perView: 1 },
-      loop: true,
-      mode: "free-snap",
-      renderMode: "performance",
-    },[
-      (slider) => {
-        let timeout;
-        let mouseOver = false;
-        function clearNextTimeout() {
-          clearTimeout(timeout);
-        }
-        function nextTimeout() {
-          clearTimeout(timeout);
-          if (mouseOver) return;
-          timeout = setTimeout(() => {
-            slider.next();
-          }, 1500);
-        }
-        slider.on("created", () => {
-          slider.container.addEventListener("mouseover", () => {
-            mouseOver = true;
-            clearNextTimeout();
-          });
-          slider.container.addEventListener("mouseout", () => {
-            mouseOver = false;
-            nextTimeout();
-          });
-          nextTimeout();
-        });
-        slider.on("dragStarted", clearNextTimeout);
-        slider.on("animationEnded", nextTimeout);
-        slider.on("updated", nextTimeout);
-      }
-    ]
-  );
+      "(min-width: 500px)": {
+        slides: { perView: 2.5, spacing: 5 },
+      },
+      "(min-width: 650px)": {
+        slides: { perView: 3, spacing: 5 },
+      },
+      "(min-width: 760px)": {
+        slides: { perView: 3.5, spacing: 5 },
+      },
+      "(min-width: 850px)": {
+        slides: { perView: 4, spacing: 5 },
+      },
+      "(min-width: 1060px)": {
+        slides: { perView: 5, spacing: 10 },
+      },
+      "(min-width: 1300px)": {
+        slides: { perView: 6, spacing: 10 },
+      },
+    },
+    slides: { perView: 1 },
+    loop: true,
+    mode: "snap",
+    renderMode: "precision",
+    created(s) {
+      s.moveToIdx(2, true, animation);
+    },
+    updated(s) {
+      s.moveToIdx(s.track.details.abs + 2, true, animation);
+    },
+    animationEnded(s) {
+      s.moveToIdx(s.track.details.abs + 2, true, animation);
+    },
+  });
 
   return (
     <div className="home-container">
@@ -188,7 +167,7 @@ export const Home = () => {
         <div className="banner-text">
           <h1>Every legend has a beginning</h1>
           <h4>The only thing that matters is that you keep going.</h4>
-          <button className="btn-primary">Shop now</button>
+          <Link to="/shop" className="btn-primary underline-none">Shop now</Link>
         </div>
       </div>
       <div className="home-welcome-descr">

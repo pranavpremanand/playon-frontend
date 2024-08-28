@@ -1,6 +1,7 @@
-@import "../../../app.scss";
+@import '../../../App.scss';
 
 .categories-container {
+  padding-bottom: 3rem;
   .add-category-section {
     .form-container {
       h1 {
@@ -38,6 +39,12 @@
     }
   }
   .table-container {
+    h4 {
+      font-size: 1.5em;
+      margin: 0.5em 0 0.75em;
+      text-align: center;
+      text-transform: uppercase;
+    }
     margin-top: 3rem;
     tbody {
       width: 100%;

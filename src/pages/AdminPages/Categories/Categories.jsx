@@ -104,35 +104,38 @@ const Categories = () => {
         )}
       </div>
 
-      <div className="table-container">
-        {isLoading ? (
-          <div className="40-vh">
-            <CustomLoader />
-          </div>
-        ) : (
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>No.</th>
-                <th>Category Name</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {categories &&
-                categories.map((category, i) => (
-                  <TableItem
-                    no={i + 1}
-                    data={category}
-                    key={category._id}
-                    hideAddOption={() => setShowAddBtn(false)}
-                  />
-                ))}
-            </tbody>
-          </Table>
-        )}
-      </div>
+      {categories && (
+        <div className="table-container">
+          <h4>Categories</h4>
+          {isLoading ? (
+            <div className="40-vh">
+              <CustomLoader />
+            </div>
+          ) : (
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Category Name</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                {categories.length > 0 &&
+                  categories.map((category, i) => (
+                    <TableItem
+                      no={i + 1}
+                      data={category}
+                      key={category._id}
+                      hideAddOption={() => setShowAddBtn(false)}
+                    />
+                  ))}
+              </tbody>
+            </Table>
+          )}
+        </div>
+      )}
     </div>
   );
 };

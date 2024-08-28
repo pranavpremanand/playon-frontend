@@ -26,7 +26,7 @@ import SearchResultItem from "./components/SearchResultItem";
 const menuOptions = [
   { title: "shop", url: "/shop" },
   { title: "about us", url: "/about-us" },
-  { title: "contact us", url: "/contact-us" },
+  { title: "contact us", url: "#" },
   { title: "login", url: "/login" },
   // { title: "become a freelancer", url: "/" },
   // { title: "build custom art", url: "/build-custom-art" },
@@ -128,7 +128,7 @@ export const Navbar = () => {
           <Link to={"/about-us"} className="underline-none">
             <li>about us</li>
           </Link>
-          <Link to={"/contact-us"} className="underline-none">
+          <Link to={"#"} className="underline-none">
             <li>contact us</li>
           </Link>
           {userLoggedIn ? (

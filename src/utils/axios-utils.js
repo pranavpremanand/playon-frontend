@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const client = axios.create({ baseURL: 'http://localhost:5000' });
+const client = axios.create({
+  baseURL: "http://localhost:5000",
+  validateStatus: (status) => status < 500,
+});
 
 // user
 export const userRequest = ({ ...options }) => {
@@ -16,7 +19,7 @@ export const userRequest = ({ ...options }) => {
   return client(options).then(onSuccess).catch(onError);
 };
 
-// admin 
+// admin
 export const adminRequest = ({ ...options }) => {
   const token =
     sessionStorage.getItem("adminToken") || localStorage.getItem("adminToken");

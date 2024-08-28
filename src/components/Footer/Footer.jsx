@@ -25,7 +25,7 @@ export const Footer = () => {
           <span>FACEBOOK</span>
         </div>
       </div>
-      <span>© 2023 Play On</span>
+      <span>© 2024 Play On</span>
     </div>
   );
 };

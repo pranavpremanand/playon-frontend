@@ -1,16 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { getProductDetails } from "../../../utils/adminAPIs";
+import { getProductDetails, updateProduct } from "../../../utils/adminAPIs";
 import CustomLoader from "../../../components/CustomLoader/CustomLoader";
 import { baseUrl } from "../../../utils/constant";
 import { useForm } from "react-hook-form";
-import './ProductInDetail.scss'
+import "./ProductInDetail.scss";
+import toast from "react-hot-toast";
 
 const ProductInDetail = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState({});
   const [categories, setCategories] = useState([]);
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [files, setFiles] = useState([]);
+  const [imgError, setImgError] = useState("");
 
   const {
     register,
@@ -53,20 +57,85 @@ const ProductInDetail = () => {
     queryKey: ["product", productId],
     queryFn: async () => {
       const res = await getProductDetails(productId);
-      console.log(res.data);
-      setProduct(res.data.product);
-      setValue("name", res.data.product.name);
-      setValue("description", res.data.product.description);
-      setValue("category", res.data.product.category._id);
-      setValue("quantityAndPrice", res.data.product.quantityAndPrice);
-
-      setCategories(res.data.categories);
+      const { data } = res;
+      setProduct(data.product);
+      setValue("name", data.product.name);
+      setValue("description", data.product.description);
+      setValue("category", data.product.category._id);
+      setValue("quantityAndPrice", data.product.quantityAndPrice);
+      const imagesList = data.product.images.map((img) => `${baseUrl}/${img}`);
+      setSelectedImages(imagesList);
+      setCategories(data.categories);
       return res;
     },
   });
 
+  // handle images select
+  const handleImagesSelect = (e) => {
+    setFiles([]);
+    setSelectedImages([]);
+    const images = Array.from(e.target.files);
+    if (images.length > 0 && images.length < 4) {
+      setFiles(e.target.files);
+      images.forEach((file) => {
+        if (
+          file.type === "image/x-png" ||
+          file.type === "image/jpeg" ||
+          file.type === "image/jpg"
+        ) {
+          setImgError("");
+          setSelectedImages((prev) => [...prev, URL.createObjectURL(file)]);
+        } else {
+          setSelectedImages([]);
+          return toast("Select image files");
+        }
+      });
+    } else {
+      if (images.length === 0) {
+        toast.error("Select at least 1 image");
+      }
+      if (images.length > 3) {
+        toast.error("Select maximum 3 images");
+      }
+    }
+  };
+
+  // handle form submit
   const handleFormSubmit = async (values) => {
-    console.log(values);
+    console.log(selectedImages);
+    if (selectedImages.length > 0 && selectedImages.length < 4) {
+      const formData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        formData.append("images", files[i]);
+      }
+      formData.append("productId", productId);
+      formData.append("name", values.name);
+      formData.append("description", values.description);
+      formData.append("category", values.category);
+      formData.append(
+        "quantityAndPrice",
+        JSON.stringify(values.quantityAndPrice)
+      );
+      try {
+        const res = await updateProduct(formData);
+        if (res.data.success) {
+          setFiles([]);
+          toast.success(res.data.message);
+          //   reset();
+        } else {
+          toast.error(res.data.message);
+        }
+      } catch (err) {
+        toast.error(err.message);
+      }
+    }
+  };
+
+  // check if images exist
+  const checkImagesExist = () => {
+    if (selectedImages.length === 0) {
+      setImgError("Please select 3 images");
+    }
   };
   return (
     <div className="product-in-detail">
@@ -220,34 +289,30 @@ const ProductInDetail = () => {
                 <input
                   type="file"
                   multiple
-                  // onChange={handleImagesSelect}
+                  onChange={handleImagesSelect}
                   name="images"
                   id="files"
                   accept="image/x-png,image/jpeg,image/jpg"
                 />
-                {/* {imgError && <small className="error">{imgError}</small>} */}
+                {imgError && <small className="error">{imgError}</small>}
               </div>
-              {/* {selectedImages.length === 3 && (
-                  <div className="selected-imgs">
-                    {selectedImages.map((img) => (
-                      <img src={img} alt="" key={img} />
-                    ))}
-                  </div> */}
-              {/* )} */}
+              {selectedImages.length > 0 && (
+                <div className="selected-imgs">
+                  {selectedImages.map((img) => (
+                    <img src={img} alt="" key={img} />
+                  ))}
+                </div>
+              )}
             </div>
             <div className="buttons">
               <button
                 className="btn-primary"
                 type="submit"
-                //   onClick={checkImagesExist}
+                onClick={checkImagesExist}
               >
                 Submit
               </button>
-              <button
-                className="btn-secondary"
-                type="button"
-                //   onClick={() => setShowAddBtn(false)}
-              >
+              <button className="btn-secondary" type="button">
                 Delete
               </button>
             </div>

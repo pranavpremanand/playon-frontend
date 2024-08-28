@@ -13,4 +13,5 @@ export const apis = {
   addProduct:'/api/admin/add-product',
   getProducts:'/api/admin/products',
   getProductById:'/api/admin/product',
+  updateProduct:'/api/admin/update-product/',
 };

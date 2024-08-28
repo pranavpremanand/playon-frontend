@@ -1,8 +1,13 @@
 @import "../../../app.scss";
 
 .products-container {
+  padding-bottom: 3rem;
+  h4 {
+    font-size: 1.5em;
+    text-align: center;
+    text-transform: uppercase;
+  }
   .add-product-section {
-    margin: 1rem;
     .form-container {
       margin: 1rem;
       display: flex;
@@ -56,13 +61,13 @@
             }
             .labels {
               display: grid;
-              grid-template-columns: 2rem 5rem 7rem;
+              grid-template-columns: 2rem 5rem 5rem;
               gap: 2rem;
               margin-bottom: 0.3rem;
             }
             .item {
               display: grid;
-              grid-template-columns: 2rem 5rem 7rem;
+              grid-template-columns: 2rem 5rem 5rem;
               margin-bottom: 1rem;
               gap: 2rem;
               padding: 0.5rem;

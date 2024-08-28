@@ -79,8 +79,11 @@
       .slider-item {
         height: fit-content !important;
         max-width: 15rem !important;
+        border: 1px solid #c2c2c270;
+        border-radius: 1rem;
         .image-div {
           height: fit-content !important;
+          padding: 0.8rem;
           .slider-img {
             height: 14rem !important;
             &:hover {
