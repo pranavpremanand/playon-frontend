@@ -78,22 +78,22 @@
         justify-content: center;
         margin-top: 1rem;
         img {
-          border-bottom: 1px solid #626262;
-          border-left: 1px solid #626262;
-          border-top: 1px solid #626262;
+          border-bottom: 1px solid #191919;
+          border-left: 1px solid #191919;
+          border-top: 1px solid #191919;
           height: 7rem;
           width: 8rem;
           object-fit: contain;
           cursor: pointer;
         }
         .active {
-          border: 2px solid #626262;
+          border: 2px solid #191919;
         }
         .active:last-of-type {
-          border: 2px solid #626262;
+          border: 2px solid #191919;
         }
         :last-child {
-          border-right: 1px solid #626262;
+          border-right: 1px solid #191919;
         }
       }
       .options {
